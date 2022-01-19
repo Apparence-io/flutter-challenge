@@ -1,0 +1,7 @@
+{
+  "@@locale": "fr",
+  "appTitle": "Flutter Puzzle Hack",
+  "@appTitle": {
+    "description": "Le titre de l'application"
+  }
+}

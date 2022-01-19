@@ -1,0 +1,28 @@
+name: flutter_puzzle_hack
+description: Flutter Puzzle Hack Challenge
+version: 1.0.0+1
+publish_to: 'none'
+
+environment:
+  sdk: ">=2.15.1 <3.0.0"
+
+dependencies:
+  dart_code_metrics: ^4.9.1
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.17.0
+  logging: ^1.0.2
+
+dev_dependencies:
+  flutter_lints: ^1.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - assets/images/

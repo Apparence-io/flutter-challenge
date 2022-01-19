@@ -1,0 +1,51 @@
+name: Flutter App Workflow
+
+on:
+  workflow_call:
+    inputs:
+      coverage_excludes:
+        required: false
+        type: string
+        default: ""
+      flutter_channel:
+        required: false
+        type: string
+        default: "stable"
+      flutter_version:
+        required: false
+        type: string
+        default: "2.8.1"
+      working_directory:
+        required: false
+        type: string
+        default: "."
+
+jobs:
+  build:
+    defaults:
+      run:
+        working-directory: ${{inputs.working_directory}}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{inputs.flutter_version}}
+          channel: ${{inputs.flutter_channel}}
+          cache: true
+
+      - name: Install Dependencies
+        run: flutter packages get
+
+      - name: Format
+        run: flutter format --set-exit-if-changed lib test
+
+      - name: Analyze
+        run: flutter analyze lib test
+
+      - name: Run tests
+        run: flutter test --no-pub --coverage --test-randomize-ordering-seed random
+        

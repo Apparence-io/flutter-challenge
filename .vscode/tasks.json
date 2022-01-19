@@ -1,0 +1,84 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "flutter: flutter build apk",
+      "type": "flutter",
+      "command": "flutter",
+      "args": [
+        "build",
+        "apk",
+        "--flavor",
+        "production",
+        "--target",
+        "lib/main.dart"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "focus": true,
+        "showReuseMessage": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "flutter: flutter build ios",
+      "type": "flutter",
+      "command": "flutter",
+      "args": [
+        "build",
+        "ios",
+        "--flavor",
+        "production",
+        "--target",
+        "lib/main.dart"
+      ],
+      "group": "build",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "focus": true,
+        "showReuseMessage": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "flutter: flutter test",
+      "type": "flutter",
+      "command": "flutter",
+      "args": [
+        "test",
+        "--coverage",
+        "--test-randomize-ordering-seed",
+        "random"
+      ],
+      "group": "test",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "focus": true,
+        "showReuseMessage": false,
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "flutter: flutter install",
+      "type": "flutter",
+      "command": "flutter",
+      "args": [
+        "install",
+        "--flavor",
+        "production",
+        "--target",
+        "lib/main.dart"
+      ],
+      "problemMatcher": [],
+    }
+  ]
+}

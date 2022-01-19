@@ -1,0 +1,68 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Tests",
+      "request": "launch",
+      "type": "dart",
+      "presentation": {
+        "group": "test"
+      },
+      "program": "test",
+      "args": ["--coverage", "--test-randomize-ordering-seed", "random"]
+    },
+    {
+      "name": "Development",
+      "request": "launch",
+      "type": "dart",
+      "presentation": {
+        "group": "launch"
+      },
+      "program": "lib/main_development.dart",
+      "args": [
+        "--flavor",
+        "development",
+        "--target",
+        "lib/main_development.dart"
+      ]
+    },
+    {
+      "name": "Development & profile",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "showMemoryUsage": true,
+      "openDevTools": "logging",
+      "presentation": {
+        "group": "launch"
+      },
+      "program": "lib/main_development.dart",
+      "args": [
+        "--flavor",
+        "development",
+        "--target",
+        "lib/main_development.dart"
+      ]
+    },
+    {
+      "name": "Staging",
+      "request": "launch",
+      "type": "dart",
+      "presentation": {
+        "group": "launch"
+      },
+      "program": "lib/main_staging.dart",
+      "args": ["--flavor", "staging", "--target", "lib/main_staging.dart"]
+    },
+    {
+      "name": "Production",
+      "request": "launch",
+      "type": "dart",
+      "presentation": {
+        "group": "launch"
+      },
+      "program": "lib/main.dart",
+      "args": ["--flavor", "production", "--target", "lib/main.dart"]
+    }
+  ]
+}
