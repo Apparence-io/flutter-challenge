@@ -23,6 +23,30 @@ class Connection extends Equatable {
         right = false,
         bottom = true;
 
+  const Connection.leftTop()
+      : left = true,
+        top = true,
+        right = false,
+        bottom = false;
+
+  const Connection.topRight()
+      : left = false,
+        top = true,
+        right = true,
+        bottom = false;
+
+  const Connection.leftBottom()
+      : left = true,
+        top = false,
+        right = false,
+        bottom = true;
+
+  const Connection.rightBottom()
+      : left = false,
+        top = false,
+        right = true,
+        bottom = true;
+
   final bool left;
   final bool top;
   final bool right;

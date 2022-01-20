@@ -6,28 +6,27 @@ class Tile extends Equatable {
   const Tile(
     this.position, {
     this.connection = const Connection.all(false),
-    this.isLocked = false,
-    this.isEmpty = false,
+    this.type = TileType.normal,
   });
 
-  const Tile.empty(this.position, {this.isLocked = false})
+  const Tile.empty(this.position)
       : connection = const Connection.all(false),
-        isEmpty = true;
+        type = TileType.empty;
 
   final Position position;
   final Connection connection;
-  final bool isLocked;
-  final bool isEmpty;
+  final TileType type;
 
   Tile copyWith({required Position position}) {
     return Tile(
       position,
       connection: connection,
-      isLocked: isLocked,
-      isEmpty: isEmpty,
+      type: type,
     );
   }
 
   @override
-  List<Object?> get props => [position, connection, isLocked, isEmpty];
+  List<Object?> get props => [position, connection, type];
 }
+
+enum TileType { normal, empty, start, finish, locked }

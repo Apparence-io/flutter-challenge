@@ -4,11 +4,10 @@ import 'package:flutter_puzzle_hack/src/models/tile.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  const basePosition = Position(0, 0);
-  const newPosition = Position(1, 1);
+  const basePosition = Position(1, 1);
+  const newPosition = Position(2, 1);
   const connection = Connection.all(true);
-  const isLocked = true;
-  const isEmpty = true;
+  const type = TileType.start;
 
   group('Tile', () {
     test('supports comparison', () {
@@ -16,14 +15,12 @@ void main() {
         const Tile(
           basePosition,
           connection: connection,
-          isLocked: isLocked,
-          isEmpty: isEmpty,
+          type: type,
         ),
         const Tile(
           basePosition,
           connection: connection,
-          isLocked: isLocked,
-          isEmpty: isEmpty,
+          type: type,
         ),
       );
     });
@@ -34,30 +31,28 @@ void main() {
           const Tile(
             basePosition,
             connection: connection,
-            isLocked: isLocked,
-            isEmpty: isEmpty,
+            type: type,
           ).copyWith(position: newPosition),
           const Tile(
             newPosition,
             connection: connection,
-            isLocked: isLocked,
-            isEmpty: isEmpty,
+            type: type,
           ),
         );
       });
     });
 
     group('empty', () {
-      test('returns an empty tile object', () {
+      test('returns an empty tile object with no connection', () {
         expect(
           const Tile.empty(
             basePosition,
-            isLocked: isLocked,
           ),
           const Tile(
             basePosition,
-            isLocked: isLocked,
-            isEmpty: true,
+            // ignore: avoid_redundant_argument_values
+            connection: Connection.all(false),
+            type: TileType.empty,
           ),
         );
       });
