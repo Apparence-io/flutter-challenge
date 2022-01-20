@@ -15,8 +15,7 @@ else
     dart test --coverage=coverage && pub run coverage:format_coverage --lcov --in=coverage --out=coverage/lcov.info --packages=.packages --report-on=lib
 fi
 lcov --remove ${PROJECT_COVERAGE} -o ${PROJECT_COVERAGE} \
-    'lib/src/l10n/*.dart' \
-    'lib/src/l10n/**/*.dart' \
-    'lib/*.dart'
+    '**/l10n/*.dart' \
+    '**/l10n/**/*.dart'
 genhtml ${PROJECT_COVERAGE} -o coverage
 open ./coverage/index.html
