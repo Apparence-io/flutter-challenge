@@ -1,5 +1,10 @@
 import 'package:equatable/equatable.dart';
 
+/// {@template position}
+/// 2d position model.
+///
+/// Position(1, 1) is the top left corner of the grid.
+/// {@endtemplate}
 class Position extends Equatable implements Comparable<Position> {
   const Position(this.x, this.y);
 

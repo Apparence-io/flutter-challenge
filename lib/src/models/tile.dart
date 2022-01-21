@@ -2,6 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_puzzle_hack/src/models/connection.dart';
 import 'package:flutter_puzzle_hack/src/models/position.dart';
 
+/// {@template tile}
+/// Puzzle tile model.
+/// {@endtemplate}
 class Tile extends Equatable {
   const Tile(
     this.position, {
@@ -29,4 +32,20 @@ class Tile extends Equatable {
   List<Object?> get props => [position, connection, type];
 }
 
-enum TileType { normal, empty, start, finish, locked }
+/// Tile types.
+enum TileType {
+  /// Default tile type which can be moved
+  normal,
+
+  /// Empty tile can be swapped with a normal tile
+  empty,
+
+  /// Start tile define an objective which must be connected to a finish tile
+  start,
+
+  /// Finish tile define an objective which must be connected to a start tile
+  finish,
+
+  /// Locked tile cannot be moved
+  locked,
+}

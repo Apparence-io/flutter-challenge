@@ -1,5 +1,11 @@
 import 'package:equatable/equatable.dart';
 
+/// {@template connection}
+/// Tile connection model defining how tiles interact.
+///
+/// A left tile having a right connection can connect
+/// with a right tile having a left connection.
+/// {@endtemplate}
 class Connection extends Equatable {
   // ignore: avoid_positional_boolean_parameters
   const Connection.fromLTRB(this.left, this.top, this.right, this.bottom);

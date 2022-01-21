@@ -5,6 +5,9 @@ import 'package:flutter_puzzle_hack/src/models/dimension.dart';
 import 'package:flutter_puzzle_hack/src/models/position.dart';
 import 'package:flutter_puzzle_hack/src/models/tile.dart';
 
+/// {@template tile}
+/// Puzzle model.
+/// {@endtemplate}
 class Puzzle extends Equatable {
   const Puzzle({required this.dimension, required this.tiles});
 
