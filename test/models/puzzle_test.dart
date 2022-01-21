@@ -140,7 +140,7 @@ void main() {
     });
 
     group('getTileNeighbors', () {
-      test('returns expected tile neighbors in ltrb order', () {
+      test('returns 2 neighbors in ltrb order for a given corner tile', () {
         expect(base4x4Puzzle.getTileNeighbors(base4x4Tile1), [
           base4x4Tile2, // right
           base4x4Tile5, // bottom
@@ -149,13 +149,6 @@ void main() {
         expect(base4x4Puzzle.getTileNeighbors(base4x4Tile4), [
           base4x4Tile3, // left
           base4x4Tile8, // bottom
-        ]);
-
-        expect(base4x4Puzzle.getTileNeighbors(base4x4Tile6), [
-          base4x4Tile5, // left
-          base4x4Tile2, // top
-          base4x4Tile7, // right
-          base4x4Tile10, // bottom
         ]);
 
         expect(base4x4Puzzle.getTileNeighbors(base4x4Tile13), [
@@ -168,6 +161,72 @@ void main() {
           base4x4Tile12, // top
         ]);
       });
+      test('returns 3 neighbors in ltrb order for a given edge tile', () {
+        expect(base4x4Puzzle.getTileNeighbors(base4x4Tile5), [
+          base4x4Tile1, // top
+          base4x4Tile6, // right
+          base4x4Tile9, // bottom
+        ]);
+      });
+      test('returns 4 neighbors in ltrb order for a given center tile', () {
+        expect(base4x4Puzzle.getTileNeighbors(base4x4Tile6), [
+          base4x4Tile5, // left
+          base4x4Tile2, // top
+          base4x4Tile7, // right
+          base4x4Tile10, // bottom
+        ]);
+      });
+    });
+
+    group('getTileMovements', () {
+      test('returns empty when the given tile is a start', () {
+        expect(
+          base4x4Puzzle.getTileMovements(base4x4Tile1),
+          isEmpty,
+        );
+      });
+
+      test('returns empty when the given tile is a finish', () {
+        expect(
+          base4x4Puzzle.getTileMovements(base4x4Tile4),
+          isEmpty,
+        );
+      });
+
+      test('returns empty when the given tile is empty', () {
+        expect(
+          base4x4Puzzle.getTileMovements(base4x4Tile8),
+          isEmpty,
+        );
+      });
+
+      test('returns empty when the given tile is locked', () {
+        expect(
+          base4x4Puzzle.getTileMovements(base4x4Tile7),
+          isEmpty,
+        );
+      });
+
+      test(
+        'returns empty when tile is not adjacent to an empty tile',
+        () {
+          expect(
+            base4x4Puzzle.getTileMovements(base4x4Tile3),
+            isEmpty,
+          );
+        },
+      );
+
+      test(
+        'returns expected tile when tile is normal and adjacent to '
+        'an empty tile',
+        () {
+          expect(
+            base4x4Puzzle.getTileMovements(base4x4Tile12),
+            [base4x4Tile8],
+          );
+        },
+      );
     });
 
     group('isTileMoveable', () {
@@ -306,7 +365,7 @@ void main() {
         });
         test('returns true when given a solved puzzle', () {
           final solvedPuzzle = Puzzle(
-            dimension: const Dimension(height: 3, width: 3),
+            dimension: const Dimension(height: 4, width: 4),
             tiles: [
               base4x4Tile1,
               base4x4Tile2,
@@ -330,6 +389,45 @@ void main() {
         });
       },
     );
+
+    group('moveTiles', () {
+      test(
+        'swap position of a given normal tile and an adjacent empty tile',
+        () {
+          final mutablePuzzle = Puzzle(
+            dimension: const Dimension(height: 4, width: 4),
+            tiles: [...base4x4Puzzle.tiles],
+          );
+
+          final expectedPuzzle = Puzzle(
+            dimension: const Dimension(height: 4, width: 4),
+            tiles: [
+              base4x4Tile1,
+              base4x4Tile2,
+              base4x4Tile3,
+              base4x4Tile4,
+              base4x4Tile5,
+              base4x4Tile6,
+              base4x4Tile7,
+              base4x4Tile12.copyWith(position: base4x4Tile8.position),
+              base4x4Tile9,
+              base4x4Tile10,
+              base4x4Tile11,
+              base4x4Tile8.copyWith(position: base4x4Tile12.position),
+              base4x4Tile13,
+              base4x4Tile14,
+              base4x4Tile15,
+              base4x4Tile16,
+            ],
+          );
+
+          expect(
+            mutablePuzzle.moveTiles(base4x4Tile12, base4x4Tile8),
+            expectedPuzzle,
+          );
+        },
+      );
+    });
 
     group('sort', () {
       test(

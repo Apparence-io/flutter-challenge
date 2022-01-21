@@ -17,6 +17,11 @@ class Puzzle extends Equatable {
   }
 
   @pragma('vm:prefer-inline')
+  void setTile(Position position, Tile tile) {
+    tiles[_index(position.x - 1, position.y - 1)] = tile;
+  }
+
+  @pragma('vm:prefer-inline')
   int _index(int x, int y) => x + y * dimension.width;
 
   List<Tile> getTileNeighbors(Tile tile) {
@@ -40,18 +45,22 @@ class Puzzle extends Equatable {
     return getTile(Position(posX, posY));
   }
 
-  bool isTileMoveable(Tile tile) {
-    if (tile.type != TileType.normal) return false;
-
+  List<Tile> getTileMovements(Tile tile) {
+    final movements = <Tile>[];
+    if (tile.type != TileType.normal) return movements;
     final neighbors = getTileNeighbors(tile);
 
     for (final t in neighbors) {
       if (t.type == TileType.empty) {
-        return true;
+        movements.add(t);
       }
     }
 
-    return false;
+    return movements;
+  }
+
+  bool isTileMoveable(Tile tile) {
+    return getTileMovements(tile).isNotEmpty;
   }
 
   bool areTilesConnected(
@@ -208,6 +217,13 @@ class Puzzle extends Equatable {
     return true;
   }
 
+  Puzzle moveTiles(Tile tileA, Tile tileB) {
+    setTile(tileB.position, tileA.copyWith(position: tileB.position));
+    setTile(tileA.position, tileB.copyWith(position: tileA.position));
+
+    return Puzzle(dimension: dimension, tiles: tiles);
+  }
+
   Puzzle sort() {
     final sortedTiles = tiles.toList()
       ..sort((tileA, tileB) {
@@ -218,5 +234,5 @@ class Puzzle extends Equatable {
   }
 
   @override
-  List<Object?> get props => [tiles, dimension];
+  List<Object?> get props => [dimension, tiles];
 }
