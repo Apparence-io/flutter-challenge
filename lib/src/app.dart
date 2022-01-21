@@ -7,6 +7,7 @@ import 'package:flutter_puzzle_hack/src/sample_feature/sample_item_details_view.
 import 'package:flutter_puzzle_hack/src/sample_feature/sample_item_list_view.dart';
 import 'package:flutter_puzzle_hack/src/settings/settings_controller.dart';
 import 'package:flutter_puzzle_hack/src/settings/settings_view.dart';
+import 'package:flutter_puzzle_hack/src/theme/app_theme.dart';
 
 /// The Widget that configures your application.
 class App extends StatelessWidget {
@@ -72,8 +73,8 @@ class App extends StatelessWidget {
           // Define a light and dark color theme. Then, read the user's
           // preferred ThemeMode (light, dark, or system default) from the
           // SettingsController to display the correct theme.
-          theme: ThemeData(),
-          darkTheme: ThemeData.dark(),
+          theme: AppTheme.light(),
+          darkTheme: AppTheme.dark(),
           themeMode: settingsController.themeMode,
 
           // Define a function to handle named routes in order to support
