@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_puzzle_hack/src/layout/breakpoint_provider.dart';
 
 import 'package:flutter_puzzle_hack/src/sample_feature/sample_item_details_view.dart';
 import 'package:flutter_puzzle_hack/src/sample_feature/sample_item_list_view.dart';
@@ -78,6 +79,10 @@ class App extends StatelessWidget {
           // Define a function to handle named routes in order to support
           // Flutter web url navigation and deep linking.
           onGenerateRoute: generateRoute,
+          builder: (context, child) => BreakpointProvider(
+            screenWidth: MediaQuery.of(context).size.width,
+            child: child ?? const SizedBox.shrink(),
+          ),
         );
       },
     );
