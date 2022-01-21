@@ -7,6 +7,7 @@ import 'package:flutter_puzzle_hack/src/sample_feature/sample_item_details_view.
 import 'package:flutter_puzzle_hack/src/sample_feature/sample_item_list_view.dart';
 import 'package:flutter_puzzle_hack/src/settings/settings_controller.dart';
 import 'package:flutter_puzzle_hack/src/settings/settings_view.dart';
+import 'package:flutter_puzzle_hack/src/splashscreen/splashscreen.dart';
 import 'package:flutter_puzzle_hack/src/theme/app_theme.dart';
 
 /// The Widget that configures your application.
@@ -14,8 +15,10 @@ class App extends StatelessWidget {
   const App({
     Key? key,
     required this.settingsController,
+    this.initialRoute = 'splashscreen',
   }) : super(key: key);
 
+  final String? initialRoute;
   final SettingsController settingsController;
 
   Route<dynamic>? generateRoute(RouteSettings routeSettings) {
@@ -23,6 +26,10 @@ class App extends StatelessWidget {
       settings: routeSettings,
       builder: (BuildContext context) {
         switch (routeSettings.name) {
+          case 'splashscreen':
+            return Splashscreen(
+              onDone: () => Navigator.pushReplacementNamed(context, '/'),
+            );
           case SettingsView.routeName:
             return SettingsView(controller: settingsController);
           case SampleItemDetailsView.routeName:
@@ -79,6 +86,7 @@ class App extends StatelessWidget {
 
           // Define a function to handle named routes in order to support
           // Flutter web url navigation and deep linking.
+          initialRoute: initialRoute,
           onGenerateRoute: generateRoute,
           builder: (context, child) => BreakpointProvider(
             screenWidth: MediaQuery.of(context).size.width,
