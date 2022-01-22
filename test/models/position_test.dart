@@ -17,6 +17,17 @@ void main() {
           positionY,
         ),
       );
+
+      expect(
+        const Position(
+          positionX,
+          positionY,
+        ).props,
+        const Position(
+          positionX,
+          positionY,
+        ).props,
+      );
     });
   });
 }

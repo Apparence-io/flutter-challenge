@@ -23,6 +23,19 @@ void main() {
           type: type,
         ),
       );
+
+      expect(
+        const Tile(
+          basePosition,
+          connection: connection,
+          type: type,
+        ).props,
+        const Tile(
+          basePosition,
+          connection: connection,
+          type: type,
+        ).props,
+      );
     });
 
     group('copyWith', () {

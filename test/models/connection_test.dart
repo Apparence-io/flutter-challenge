@@ -8,6 +8,10 @@ void main() {
         const Connection.all(true),
         const Connection.fromLTRB(true, true, true, true),
       );
+      expect(
+        const Connection.all(true).props,
+        const Connection.fromLTRB(true, true, true, true).props,
+      );
     });
 
     group('fromLTRB', () {
