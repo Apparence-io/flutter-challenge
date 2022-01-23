@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_puzzle_hack/src/layout/breakpoint_provider.dart';
+import 'package:flutter_puzzle_hack/src/puzzle/view/puzzle_page.dart';
 
-import 'package:flutter_puzzle_hack/src/sample_feature/sample_item_details_view.dart';
-import 'package:flutter_puzzle_hack/src/sample_feature/sample_item_list_view.dart';
 import 'package:flutter_puzzle_hack/src/settings/settings_controller.dart';
 import 'package:flutter_puzzle_hack/src/settings/settings_view.dart';
 import 'package:flutter_puzzle_hack/src/splashscreen/splashscreen.dart';
@@ -30,13 +29,11 @@ class App extends StatelessWidget {
             return Splashscreen(
               onDone: () => Navigator.pushReplacementNamed(context, '/'),
             );
-          case SettingsView.routeName:
+          case '/settings':
             return SettingsView(controller: settingsController);
-          case SampleItemDetailsView.routeName:
-            return const SampleItemDetailsView();
-          case SampleItemListView.routeName:
+          case '/':
           default:
-            return const SampleItemListView();
+            return const PuzzlePage();
         }
       },
     );
