@@ -6,30 +6,33 @@ import 'package:flutter_puzzle_hack/src/models/position.dart';
 /// Puzzle tile model.
 /// {@endtemplate}
 class Tile extends Equatable {
-  const Tile(
-    this.position, {
+  const Tile({
+    required this.id,
+    required this.position,
     this.connection = const Connection.all(false),
     this.type = TileType.normal,
   });
 
-  const Tile.empty(this.position)
+  const Tile.empty({required this.id, required this.position})
       : connection = const Connection.all(false),
         type = TileType.empty;
 
+  final String id;
   final Position position;
   final Connection connection;
   final TileType type;
 
   Tile copyWith({required Position position}) {
     return Tile(
-      position,
+      id: id,
+      position: position,
       connection: connection,
       type: type,
     );
   }
 
   @override
-  List<Object?> get props => [position, connection, type];
+  List<Object?> get props => [id, position, connection, type];
 }
 
 /// Tile types.

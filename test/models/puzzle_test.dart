@@ -7,67 +7,82 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   const base4x4Tile1 = Tile(
-    Position(1, 1),
+    id: '1',
+    position: Position(1, 1),
     connection: Connection.all(true),
     type: TileType.start,
   );
   const base4x4Tile2 = Tile(
-    Position(2, 1),
+    id: '2',
+    position: Position(2, 1),
     connection: Connection.vertical(),
   );
   const base4x4Tile3 = Tile(
-    Position(3, 1),
+    id: '3',
+    position: Position(3, 1),
     connection: Connection.horizontal(),
   );
   const base4x4Tile4 = Tile(
-    Position(4, 1),
+    id: '4',
+    position: Position(4, 1),
     connection: Connection.all(true),
     type: TileType.finish,
   );
   const base4x4Tile5 = Tile(
-    Position(1, 2),
+    id: '5',
+    position: Position(1, 2),
     connection: Connection.topRight(),
   );
   const base4x4Tile6 = Tile(
-    Position(2, 2),
+    id: '6',
+    position: Position(2, 2),
     connection: Connection.fromLTRB(true, false, true, true),
   );
   const base4x4Tile7 = Tile(
-    Position(3, 2),
+    id: '7',
+    position: Position(3, 2),
     connection: Connection.horizontal(),
     type: TileType.locked,
   );
-  const base4x4Tile8 = Tile.empty(Position(4, 2));
+  const base4x4Tile8 = Tile.empty(id: '8', position: Position(4, 2));
   const base4x4Tile9 = Tile(
-    Position(1, 3),
+    id: '9',
+    position: Position(1, 3),
     connection: Connection.leftBottom(),
   );
   const base4x4Tile10 = Tile(
-    Position(2, 3),
+    id: '10',
+    position: Position(2, 3),
     connection: Connection.vertical(),
   );
   const base4x4Tile11 = Tile(
-    Position(3, 3),
+    id: '11',
+    position: Position(3, 3),
     connection: Connection.rightBottom(),
   );
   const base4x4Tile12 = Tile(
-    Position(4, 3),
+    id: '12',
+    position: Position(4, 3),
     connection: Connection.leftTop(),
   );
   const base4x4Tile13 = Tile(
-    Position(1, 4),
+    id: '13',
+    position: Position(1, 4),
     connection: Connection.vertical(),
   );
   const base4x4Tile14 = Tile(
-    Position(2, 4),
+    id: '14',
+    position: Position(2, 4),
     connection: Connection.horizontal(),
   );
   const base4x4Tile15 = Tile(
-    Position(3, 4),
+    id: '15',
+    position: Position(3, 4),
     connection: Connection.topRight(),
   );
   const base4x4Tile16 = Tile(
-    Position(4, 4),
+    id: '16',
+    position: Position(4, 4),
     connection: Connection.all(true),
   );
 
@@ -330,30 +345,32 @@ void main() {
         final connections = base4x4Puzzle.getTilesConnections();
 
         // check first tile connections
-        final tile1Index = base4x4Tile1.position.toString();
         final expectedConnections = [
           base4x4Tile5,
           base4x4Tile6,
           base4x4Tile7,
           base4x4Tile10,
-        ].map((e) => e.position.toString());
+        ];
 
-        expect(connections[tile1Index]?.length, expectedConnections.length);
         expect(
-          connections[tile1Index]!.containsAll(expectedConnections),
-          isTrue,
+          connections[base4x4Tile1.id]?.length,
+          expectedConnections.length,
+        );
+        expect(
+          connections[base4x4Tile1.id],
+          expectedConnections,
         );
 
         // check inter connections
         for (final c in expectedConnections) {
           expect(
-            connections[c]?.length,
+            connections[c.id]?.length,
             expectedConnections.length,
           );
         }
 
         // check second tile with no connections
-        expect(connections[base4x4Tile2.position.toString()], isEmpty);
+        expect(connections[base4x4Tile2.id], isEmpty);
       });
     });
 

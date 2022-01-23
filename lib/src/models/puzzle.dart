@@ -78,11 +78,11 @@ class Puzzle extends Equatable {
     final connectedTiles = <Tile>[];
 
     for (final n in neighbors) {
-      if (paths.contains('${tileA.position}_${n.position}')) continue;
+      if (paths.contains('${tileA.id}_${n.id}')) continue;
 
       paths
-        ..add('${tileA.position}_${n.position}')
-        ..add('${n.position}_${tileA.position}');
+        ..add('${tileA.id}_${n.id}')
+        ..add('${n.id}_${tileA.id}');
 
       if (tileA.position.x > n.position.x) {
         // left
@@ -126,12 +126,12 @@ class Puzzle extends Equatable {
 
     for (final n in neighbors) {
       // ignore already checked tiles
-      if (paths.contains('${tile.position}_${n.position}')) continue;
+      if (paths.contains('${tile.id}_${n.id}')) continue;
 
       // add to checked tiles
       paths
-        ..add('${tile.position}_${n.position}')
-        ..add('${n.position}_${tile.position}');
+        ..add('${tile.id}_${n.id}')
+        ..add('${n.id}_${tile.id}');
 
       if (tile.position.x > n.position.x) {
         // left connection
@@ -165,35 +165,36 @@ class Puzzle extends Equatable {
     return connections;
   }
 
-  Map<String, Set<String>> getTilesConnections() {
-    final tilesConnections = <String, Set<String>>{};
+  Map<String, List<Tile>> getTilesConnections() {
+    final tilesConnections = <String, Map<String, Tile>>{};
 
     final paths = <String>{};
 
     // initialize sets
     for (final t in tiles) {
-      tilesConnections[t.position.toString()] = <String>{};
+      tilesConnections[t.id] = <String, Tile>{};
     }
 
     for (final tile in tiles) {
       // get tile connections
-      final p = tile.position.toString();
-      final connections = getTileConnections(tile, paths: paths)
-          .map((t) => t.position.toString());
-
+      final connections = {
+        for (final t in getTileConnections(tile, paths: paths)) t.id: t,
+      };
       // fill tile connections
-      tilesConnections[p]!.addAll(connections);
+      tilesConnections[tile.id]!.addAll(connections);
 
-      for (final c in connections) {
+      for (final c in connections.values) {
         // set reverse index
-        tilesConnections[c]!
+        tilesConnections[c.id]!
           ..addAll(connections) // add connections
-          ..remove(c) // remove it self
-          ..add(p); // add original tile
+          ..remove(c.id); // remove itself
+        tilesConnections[c.id]![tile.id] = tile; // add original tile
       }
     }
 
-    return tilesConnections;
+    return {
+      for (final t in tilesConnections.entries) t.key: t.value.values.toList(),
+    };
   }
 
   bool isSolved() {
@@ -203,16 +204,16 @@ class Puzzle extends Equatable {
 
     // check that every start is connected to a finish
     for (final s in startTiles) {
-      final conns = connections[s.position.toString()];
-      if (!finishTiles.any((e) => conns!.contains(e.position.toString()))) {
+      final conns = connections[s.id];
+      if (!finishTiles.any((e) => conns!.contains(e))) {
         return false;
       }
     }
 
     // check that every finish is connected to a start
     for (final f in finishTiles) {
-      final conns = connections[f.position.toString()];
-      if (!startTiles.any((e) => conns!.contains(e.position.toString()))) {
+      final conns = connections[f.id];
+      if (!startTiles.any((e) => conns!.contains(e))) {
         return false;
       }
     }

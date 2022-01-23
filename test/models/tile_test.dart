@@ -4,6 +4,7 @@ import 'package:flutter_puzzle_hack/src/models/tile.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  const id = 'someId';
   const basePosition = Position(1, 1);
   const newPosition = Position(2, 1);
   const connection = Connection.all(true);
@@ -13,12 +14,14 @@ void main() {
     test('supports comparison', () {
       expect(
         const Tile(
-          basePosition,
+          id: id,
+          position: basePosition,
           connection: connection,
           type: type,
         ),
         const Tile(
-          basePosition,
+          id: id,
+          position: basePosition,
           connection: connection,
           type: type,
         ),
@@ -26,12 +29,14 @@ void main() {
 
       expect(
         const Tile(
-          basePosition,
+          id: id,
+          position: basePosition,
           connection: connection,
           type: type,
         ).props,
         const Tile(
-          basePosition,
+          id: id,
+          position: basePosition,
           connection: connection,
           type: type,
         ).props,
@@ -42,12 +47,14 @@ void main() {
       test('returns a tile object with updated position', () {
         expect(
           const Tile(
-            basePosition,
+            id: id,
+            position: basePosition,
             connection: connection,
             type: type,
           ).copyWith(position: newPosition),
           const Tile(
-            newPosition,
+            id: id,
+            position: newPosition,
             connection: connection,
             type: type,
           ),
@@ -59,10 +66,12 @@ void main() {
       test('returns an empty tile object with no connection', () {
         expect(
           const Tile.empty(
-            basePosition,
+            id: id,
+            position: basePosition,
           ),
           const Tile(
-            basePosition,
+            id: id,
+            position: basePosition,
             // ignore: avoid_redundant_argument_values
             connection: Connection.all(false),
             type: TileType.empty,
