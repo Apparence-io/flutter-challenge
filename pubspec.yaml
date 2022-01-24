@@ -27,3 +27,5 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/theme_one/
+    
