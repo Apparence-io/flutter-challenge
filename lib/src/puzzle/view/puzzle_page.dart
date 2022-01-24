@@ -1,11 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+
 import 'package:flutter_puzzle_hack/src/l10n/l10n.dart';
 import 'package:flutter_puzzle_hack/src/models/connection.dart';
 import 'package:flutter_puzzle_hack/src/models/dimension.dart';
 import 'package:flutter_puzzle_hack/src/models/position.dart';
 import 'package:flutter_puzzle_hack/src/models/puzzle.dart';
+import 'package:flutter_puzzle_hack/src/models/ticker.dart';
 import 'package:flutter_puzzle_hack/src/models/tile.dart';
 import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_board.dart';
+import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_move_counter.dart';
+import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_timer.dart';
 import 'package:flutter_puzzle_hack/src/theme/app_theme.dart';
 
 class PuzzlePage extends StatefulWidget {
@@ -17,11 +23,27 @@ class PuzzlePage extends StatefulWidget {
 
 class PuzzlePageState extends State<PuzzlePage> {
   late Puzzle puzzle;
+  late Ticker ticker;
+  late StreamSubscription<int>? tickerSubscription;
+  int secondsElapsed = 0;
+  int moveCount = 0;
 
   @override
   void initState() {
     super.initState();
     puzzle = generateRandomPuzzle();
+    ticker = const Ticker();
+    tickerSubscription = ticker.tick().listen(
+          (newSecondsElapsed) => setState(() {
+            secondsElapsed = newSecondsElapsed;
+          }),
+        );
+  }
+
+  @override
+  void dispose() {
+    tickerSubscription?.cancel();
+    super.dispose();
   }
 
   Puzzle generateRandomPuzzle() {
@@ -58,6 +80,7 @@ class PuzzlePageState extends State<PuzzlePage> {
     // use first available move by default for now
     setState(() {
       puzzle = puzzle.moveTiles(tile, movements.first);
+      moveCount++;
     });
   }
 
@@ -80,12 +103,21 @@ class PuzzlePageState extends State<PuzzlePage> {
         duration: const Duration(milliseconds: 500),
         decoration:
             BoxDecoration(color: extraTheme(context).puzzleBackgroundColor),
-        child: Center(
-          child: PuzzleBoard(
-            puzzleDimension: puzzle.dimension,
-            tiles: puzzle.tiles,
-            onTilePress: onTilePress,
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            PuzzleTimer(
+              timeElapsed: Duration(seconds: secondsElapsed),
+            ),
+            const SizedBox(height: 32),
+            PuzzleMoveCounter(moveCount: moveCount),
+            const SizedBox(height: 32),
+            PuzzleBoard(
+              puzzleDimension: puzzle.dimension,
+              tiles: puzzle.tiles,
+              onTilePress: onTilePress,
+            ),
+          ],
         ),
       ),
     );

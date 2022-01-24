@@ -3,5 +3,32 @@
   "appTitle": "Flutter Puzzle Hack",
   "@appTitle": {
     "description": "The title of the application"
+  },
+  "puzzleDurationLabelText": "{hours} hours {minutes} minutes {seconds} seconds",
+  "@puzzleDurationLabelText": {
+      "description": "Semantic for the puzzle timer",
+      "placeholders": {
+          "hours": {
+              "type": "String",
+              "example": "1"
+          },
+          "minutes": {
+              "type": "String",
+              "example": "21"
+          },
+          "seconds": {
+              "type": "String",
+              "example": "42"
+          }
+      }
+  },
+  "nMoves": "{count,plural, =0{{count} move} =1{{count} move} other{{count} moves}}",
+  "@nMoves": {
+    "description": "Shown as a number of moves",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

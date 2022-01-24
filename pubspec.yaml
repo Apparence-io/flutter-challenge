@@ -17,6 +17,7 @@ dependencies:
   logging: ^1.0.2
 
 dev_dependencies:
+  fake_async: ^1.2.0
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
