@@ -199,19 +199,19 @@ class Puzzle extends Equatable {
 
   bool isSolved() {
     final startTiles = tiles.where((t) => t.type == TileType.start);
-    final finishTiles = tiles.where((t) => t.type == TileType.finish);
+    final endTiles = tiles.where((t) => t.type == TileType.end);
     final connections = getTilesConnections();
 
-    // check that every start is connected to a finish
+    // check that every start is connected to an end
     for (final s in startTiles) {
       final conns = connections[s.id];
-      if (!finishTiles.any((e) => conns!.contains(e))) {
+      if (!endTiles.any((e) => conns!.contains(e))) {
         return false;
       }
     }
 
-    // check that every finish is connected to a start
-    for (final f in finishTiles) {
+    // check that every end is connected to a start
+    for (final f in endTiles) {
       final conns = connections[f.id];
       if (!startTiles.any((e) => conns!.contains(e))) {
         return false;

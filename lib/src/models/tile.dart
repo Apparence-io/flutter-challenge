@@ -11,16 +11,19 @@ class Tile extends Equatable {
     required this.position,
     this.connection = const Connection.all(false),
     this.type = TileType.normal,
+    this.asset,
   });
 
   const Tile.empty({required this.id, required this.position})
       : connection = const Connection.all(false),
-        type = TileType.empty;
+        type = TileType.empty,
+        asset = null;
 
   final String id;
   final Position position;
   final Connection connection;
   final TileType type;
+  final String? asset;
 
   Tile copyWith({required Position position}) {
     return Tile(
@@ -28,11 +31,12 @@ class Tile extends Equatable {
       position: position,
       connection: connection,
       type: type,
+      asset: asset,
     );
   }
 
   @override
-  List<Object?> get props => [id, position, connection, type];
+  List<Object?> get props => [id, position, connection, type, asset];
 }
 
 /// Tile types.
@@ -43,11 +47,11 @@ enum TileType {
   /// Empty tile can be swapped with a normal tile
   empty,
 
-  /// Start tile define an objective which must be connected to a finish tile
+  /// Start tile define an objective which must be connected to a end tile
   start,
 
-  /// Finish tile define an objective which must be connected to a start tile
-  finish,
+  /// End tile define an objective which must be connected to a start tile
+  end,
 
   /// Locked tile cannot be moved
   locked,

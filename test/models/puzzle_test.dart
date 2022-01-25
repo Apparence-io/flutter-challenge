@@ -26,7 +26,7 @@ void main() {
     id: '4',
     position: Position(4, 1),
     connection: Connection.all(true),
-    type: TileType.finish,
+    type: TileType.end,
   );
   const base4x4Tile5 = Tile(
     id: '5',
@@ -201,7 +201,7 @@ void main() {
         );
       });
 
-      test('returns empty when the given tile is a finish', () {
+      test('returns empty when the given tile is an end', () {
         expect(
           base4x4Puzzle.getTileMovements(base4x4Tile4),
           isEmpty,
@@ -252,7 +252,7 @@ void main() {
         );
       });
 
-      test('returns false when the given tile is a finish', () {
+      test('returns false when the given tile is an end', () {
         expect(
           base4x4Puzzle.isTileMoveable(base4x4Tile4),
           isFalse,

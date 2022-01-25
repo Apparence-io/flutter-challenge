@@ -9,6 +9,7 @@ void main() {
   const newPosition = Position(2, 1);
   const connection = Connection.all(true);
   const type = TileType.start;
+  const asset = 'asset.png';
 
   group('Tile', () {
     test('supports comparison', () {
@@ -18,12 +19,14 @@ void main() {
           position: basePosition,
           connection: connection,
           type: type,
+          asset: asset,
         ),
         const Tile(
           id: id,
           position: basePosition,
           connection: connection,
           type: type,
+          asset: asset,
         ),
       );
 
@@ -33,12 +36,14 @@ void main() {
           position: basePosition,
           connection: connection,
           type: type,
+          asset: asset,
         ).props,
         const Tile(
           id: id,
           position: basePosition,
           connection: connection,
           type: type,
+          asset: asset,
         ).props,
       );
     });
@@ -51,12 +56,14 @@ void main() {
             position: basePosition,
             connection: connection,
             type: type,
+            asset: asset,
           ).copyWith(position: newPosition),
           const Tile(
             id: id,
             position: newPosition,
             connection: connection,
             type: type,
+            asset: asset,
           ),
         );
       });
@@ -75,6 +82,8 @@ void main() {
             // ignore: avoid_redundant_argument_values
             connection: Connection.all(false),
             type: TileType.empty,
+            // ignore: avoid_redundant_argument_values
+            asset: null,
           ),
         );
       });
