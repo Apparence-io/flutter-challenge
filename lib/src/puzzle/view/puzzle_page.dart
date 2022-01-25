@@ -25,29 +25,17 @@ class PuzzlePage extends StatefulWidget {
 class PuzzlePageState extends State<PuzzlePage> {
   late Puzzle puzzle;
   late Ticker ticker;
-  late StreamSubscription<int>? tickerSubscription;
+  StreamSubscription<int>? tickerSubscription;
   int secondsElapsed = 0;
   int moveCount = 0;
+  bool started = false;
   bool solved = false;
 
   @override
   void initState() {
     super.initState();
-    var generations = 0;
-    do {
-      puzzle = PuzzleGenerator.generatePuzzle(
-        dimension: const Dimension(width: 4, height: 4),
-        themeFolder: 'assets/themes/base',
-      );
-      generations++;
-    } while (puzzle.isSolved() && generations < 50);
-
     ticker = const Ticker();
-    tickerSubscription = ticker.tick().listen(
-          (newSecondsElapsed) => setState(() {
-            secondsElapsed = newSecondsElapsed;
-          }),
-        );
+    puzzle = _generatePuzzle();
   }
 
   @override
@@ -56,7 +44,45 @@ class PuzzlePageState extends State<PuzzlePage> {
     super.dispose();
   }
 
-  void onTilePress(Tile tile) {
+  Puzzle _generatePuzzle() {
+    var generations = 0;
+    Puzzle puzzle;
+    do {
+      puzzle = PuzzleGenerator.generatePuzzle(
+        dimension: const Dimension(width: 4, height: 4),
+        themeFolder: 'assets/themes/base',
+      );
+      generations++;
+    } while (puzzle.isSolved() && generations < 50);
+
+    return puzzle;
+  }
+
+  void _startPuzzle() {
+    setState(() {
+      puzzle = _generatePuzzle();
+      moveCount = 0;
+      secondsElapsed = 0;
+      started = true;
+      solved = false;
+    });
+    _startTimer();
+  }
+
+  void _startTimer() {
+    tickerSubscription?.cancel();
+    tickerSubscription = ticker.tick().listen(
+          (newSecondsElapsed) => setState(() {
+            secondsElapsed = newSecondsElapsed;
+          }),
+        );
+  }
+
+  void _pauseTimer() {
+    tickerSubscription?.pause();
+  }
+
+  void _onTilePress(Tile tile) {
     if (solved) return;
     final movements = puzzle.getTileMovements(tile);
     if (movements.isEmpty) return;
@@ -66,8 +92,19 @@ class PuzzlePageState extends State<PuzzlePage> {
     setState(() {
       puzzle = newPuzzle;
       moveCount++;
-      solved = completed;
     });
+    if (completed) _onCompletion();
+  }
+
+  void _onCompletion() {
+    _pauseTimer();
+    setState(() {
+      solved = true;
+    });
+  }
+
+  void _onStartButtonPress() {
+    _startPuzzle();
   }
 
   @override
@@ -132,9 +169,11 @@ class PuzzlePageState extends State<PuzzlePage> {
                         width: 150,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: null,
+                          onPressed: _onStartButtonPress,
                           child: Text(
-                            l10n.buttonStartText,
+                            started
+                                ? l10n.buttonRestartText
+                                : l10n.buttonStartText,
                             style: Theme.of(context).textTheme.button,
                           ),
                         ),
@@ -152,8 +191,8 @@ class PuzzlePageState extends State<PuzzlePage> {
                         PuzzleBoard(
                           puzzleDimension: puzzle.dimension,
                           tiles: puzzle.tiles,
-                          canInteract: !solved,
-                          onTilePress: onTilePress,
+                          canInteract: started && !solved,
+                          onTilePress: _onTilePress,
                         ),
                         const SizedBox(
                           height: 16,
