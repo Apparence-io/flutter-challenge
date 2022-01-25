@@ -40,9 +40,12 @@ class PuzzleBoard extends StatelessWidget {
       child: (breakpoint) => Card(
         child: Padding(
           padding: const EdgeInsets.all(4),
-          child: SizedBox.square(
+          child: SizedBox(
             key: Key('puzzle_board_${breakpoint.name}'),
-            dimension: _breakpointDimensions[breakpoint],
+            width: _breakpointDimensions[breakpoint],
+            height: puzzleDimension.height /
+                puzzleDimension.width.toDouble() *
+                _breakpointDimensions[breakpoint]!,
             child: Stack(
               children: tiles
                   .map(
