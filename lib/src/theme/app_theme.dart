@@ -52,6 +52,19 @@ abstract class AppTheme {
     iconTheme: const IconThemeData(
       color: Color(0xFFFFFFFF),
     ),
+    dialogTheme: const DialogTheme(
+      backgroundColor: Color(0xFF75bfff),
+      titleTextStyle: TextStyle(
+        fontSize: 26,
+        fontWeight: FontWeight.w600,
+        color: Color(0xFFFFFFFF),
+      ),
+      contentTextStyle: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+        color: Color(0xFFFFFFFF),
+      ),
+    ),
   );
 
   static final lightExtra = ExtraThemeData();
@@ -104,6 +117,19 @@ abstract class AppTheme {
     cardTheme: const CardTheme(
       color: Color(0xFF104673),
       elevation: 0,
+    ),
+    dialogTheme: const DialogTheme(
+      backgroundColor: Color(0xFF104673),
+      titleTextStyle: TextStyle(
+        fontSize: 26,
+        fontWeight: FontWeight.w600,
+        color: Color(0xFFFFFFFF),
+      ),
+      contentTextStyle: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+        color: Color(0xFFFFFFFF),
+      ),
     ),
   );
 
