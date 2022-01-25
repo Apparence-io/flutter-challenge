@@ -4,7 +4,7 @@ import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_move_counter.dart'
 import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_timer.dart';
 
 class PuzzleVictory extends StatefulWidget {
-  PuzzleVictory({
+  const PuzzleVictory({
     Key? key,
     required this.movesNumber,
     required this.timeElapsed,
@@ -16,12 +16,12 @@ class PuzzleVictory extends StatefulWidget {
     this.onLeftButtonPress,
   }) : super(key: key);
 
-  int movesNumber;
-  int timeElapsed;
-  String title;
-  String description;
-  String rightButtonText;
-  String leftButtonText;
+  final int movesNumber;
+  final int timeElapsed;
+  final String title;
+  final String description;
+  final String rightButtonText;
+  final String leftButtonText;
 
   final Function()? onRightButtonPress;
   final Function()? onLeftButtonPress;
