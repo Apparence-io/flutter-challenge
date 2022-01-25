@@ -42,5 +42,14 @@
         "type": "int"
       }
     }
-  }
+  },
+  "puzzleVictoryDialogTitle": "You've Won !",
+  "@puzzleVictoryDialogTitle": {
+    "description": "The title of Victory's dialog"
+  },
+  "puzzleVictoryDialogDescription": "Your score :",
+  "@puzzleVictoryDialogDescription": {
+    "description": "The description of Victory's dialog"
+  },
+  "close": "close"
 }

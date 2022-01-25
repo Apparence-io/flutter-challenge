@@ -42,5 +42,14 @@
         "type": "int"
       }
     }
-  }
+  },
+  "puzzleVictoryDialogTitle": "Tu as gagné !",
+  "@puzzleVictoryDialogTitle": {
+    "description": "Titre du dialogue de victoire"
+  },
+  "puzzleVictoryDialogDescription": "Ton score :",
+  "@puzzleVictoryDialogDescription": {
+    "description": "Déscription du dialogue de victoire"
+  },
+  "close": "fermer"
 }
