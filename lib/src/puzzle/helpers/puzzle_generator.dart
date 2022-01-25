@@ -106,16 +106,18 @@ abstract class PuzzleGenerator {
       }
     }
 
-    // add start on first row
-    var index = rand.nextInt(dimension.width);
+    // add start on first row except second and before last column
+    var index = rand.nextInt(dimension.width - 2);
+    if (index == 1) index = dimension.width - 1;
     tiles.add(
       _generateTile('start', positions[index], dimension, themeFolder),
     );
     positionPicks.remove(index);
 
-    // add end on last row
-    index = (dimension.height - 1) * dimension.width +
-        rand.nextInt(dimension.width);
+    // add end on last row except second and before last column
+    index = rand.nextInt(dimension.width - 2);
+    if (index == 1) index = dimension.width - 1;
+    index += (dimension.height - 1) * dimension.width;
     tiles.add(
       _generateTile('end', positions[index], dimension, themeFolder),
     );
@@ -139,14 +141,13 @@ abstract class PuzzleGenerator {
       'rightBottom',
     ];
     final templatePicks = <String>[];
-    final rounds =
-        (dimension.width * dimension.height / templates.length).ceil();
-    for (var i = 0; i < rounds; i++) {
-      templatePicks.addAll(templates);
-    }
 
     // add remaining tiles
     for (final index in positionPicks) {
+      // refill
+      if (templatePicks.isEmpty) {
+        templatePicks.addAll(templates);
+      }
       final templateIndex = rand.nextInt(templatePicks.length);
       tiles.add(
         _generateTile(
