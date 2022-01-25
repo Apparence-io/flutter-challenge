@@ -50,7 +50,7 @@ class PuzzleBoard extends StatelessWidget {
                       key: Key('puzzle_tile_${t.id}'),
                       tile: t,
                       puzzleDimension: puzzleDimension,
-                      canInteract: canInteract,
+                      canInteract: canInteract && t.type == TileType.normal,
                       onTileHover: onTileHover,
                       onTilePress: onTilePress,
                       asset: t.asset,
