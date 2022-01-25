@@ -32,13 +32,17 @@ class PuzzleTileState extends State<PuzzleTile>
   late AnimationController _controller;
   late Animation<double> _scale;
 
+  bool get isMoveable => widget.tile.type == TileType.normal;
+
   void onTileHover({required bool hovering}) {
-    widget.onTileHover?.call(widget.tile, hovering);
-    hovering ? _controller.forward() : _controller.reverse();
+    hovering && widget.canInteract
+        ? _controller.forward()
+        : _controller.reverse();
+    if (widget.canInteract) widget.onTileHover?.call(widget.tile, hovering);
   }
 
   void onTilePress() {
-    widget.onTilePress?.call(widget.tile);
+    if (widget.canInteract) widget.onTilePress?.call(widget.tile);
   }
 
   @override
@@ -60,7 +64,9 @@ class PuzzleTileState extends State<PuzzleTile>
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller
+      ..reverse()
+      ..dispose();
     super.dispose();
   }
 
@@ -79,15 +85,14 @@ class PuzzleTileState extends State<PuzzleTile>
           widthFactor: 1 / widget.puzzleDimension.width,
           heightFactor: 1 / widget.puzzleDimension.height,
           child: MouseRegion(
-            onEnter: (_) =>
-                widget.canInteract ? onTileHover(hovering: true) : null,
-            onExit: (_) =>
-                widget.canInteract ? onTileHover(hovering: false) : null,
+            onEnter: isMoveable ? (_) => onTileHover(hovering: true) : null,
+            onExit: isMoveable ? (_) => onTileHover(hovering: false) : null,
             child: ScaleTransition(
               scale: _scale,
               child: IconButton(
                 padding: EdgeInsets.zero,
-                onPressed: () => widget.canInteract ? onTilePress() : null,
+                onPressed:
+                    widget.canInteract && isMoveable ? onTilePress : null,
                 icon: widget.asset != null
                     ? Image.asset(
                         widget.asset!,

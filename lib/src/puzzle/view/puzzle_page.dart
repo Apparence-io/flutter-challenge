@@ -90,12 +90,10 @@ class PuzzlePageState extends State<PuzzlePage> {
               ),
               Row(
                 children: [
-                  IconButton(
+                  const IconButton(
                     // change audio sound on/off
-                    onPressed: () {
-                      print("button pressed");
-                    },
-                    icon: const Icon(Icons.music_off),
+                    onPressed: null,
+                    icon: Icon(Icons.music_off),
                   ),
                   const SizedBox(width: 16),
                   IconButton(
