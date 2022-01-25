@@ -4,6 +4,18 @@
   "@appTitle": {
     "description": "The title of the application"
   },
+  "puzzlePageTitle": "Flutter Puzzle Hack",
+  "@puzzlePageTitle": {
+    "description": "The title of Puzzle Page"
+  },
+  "buttonStartText": "Start Game",
+  "@buttonStartText": {
+    "description": "Start the game"
+  },
+  "buttonRestartText": "Restart Game",
+  "@buttonRestartText": {
+    "description": "Restart the game"
+  },
   "puzzleDurationLabelText": "{hours} hours {minutes} minutes {seconds} seconds",
   "@puzzleDurationLabelText": {
       "description": "Semantic for the puzzle timer",

@@ -7,10 +7,10 @@ import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_tile.dart';
 
 final _breakpointDimensions = <Breakpoint, double>{
   Breakpoint.xsmall: 360,
-  Breakpoint.small: 420,
-  Breakpoint.medium: 500,
-  Breakpoint.large: 600,
-  Breakpoint.xlarge: 720,
+  Breakpoint.small: 400,
+  Breakpoint.medium: 450,
+  Breakpoint.large: 550,
+  Breakpoint.xlarge: 690,
 };
 
 class PuzzleBoard extends StatelessWidget {
