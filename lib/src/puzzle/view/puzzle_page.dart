@@ -37,7 +37,7 @@ class PuzzlePageState extends State<PuzzlePage> {
     do {
       puzzle = PuzzleGenerator.generatePuzzle(
         dimension: const Dimension(width: 4, height: 4),
-        themeFolder: 'themes/base',
+        themeFolder: 'assets/themes/base',
       );
       generations++;
     } while (puzzle.isSolved() && generations < 50);
@@ -84,7 +84,7 @@ class PuzzlePageState extends State<PuzzlePage> {
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Image.asset(
-                  'images/logo_flutter_white.png',
+                  'assets/images/logo_flutter_white.png',
                   height: 40,
                 ),
               ),

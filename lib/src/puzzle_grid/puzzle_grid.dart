@@ -22,7 +22,7 @@ class PuzzleGrid extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Image.asset(
-                  'images/logo_flutter_white.png',
+                  'assets/images/logo_flutter_white.png',
                   height: 40,
                 ),
               ),
