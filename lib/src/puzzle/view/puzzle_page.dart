@@ -151,12 +151,6 @@ class PuzzlePageState extends State<PuzzlePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        PuzzleTimer(
-                          timeElapsed: Duration(seconds: secondsElapsed),
-                        ),
-                        const SizedBox(height: 32),
-                        PuzzleMoveCounter(moveCount: moveCount),
-                        const SizedBox(height: 32),
                         PuzzleBoard(
                           puzzleDimension: puzzle.dimension,
                           tiles: puzzle.tiles,
