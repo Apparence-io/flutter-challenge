@@ -3,12 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_puzzle_hack/src/l10n/l10n.dart';
-import 'package:flutter_puzzle_hack/src/models/connection.dart';
 import 'package:flutter_puzzle_hack/src/models/dimension.dart';
-import 'package:flutter_puzzle_hack/src/models/position.dart';
 import 'package:flutter_puzzle_hack/src/models/puzzle.dart';
 import 'package:flutter_puzzle_hack/src/models/ticker.dart';
 import 'package:flutter_puzzle_hack/src/models/tile.dart';
+import 'package:flutter_puzzle_hack/src/puzzle/helpers/puzzle_generator.dart';
 import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_board.dart';
 import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_move_counter.dart';
 import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_timer.dart';
@@ -27,11 +26,20 @@ class PuzzlePageState extends State<PuzzlePage> {
   late StreamSubscription<int>? tickerSubscription;
   int secondsElapsed = 0;
   int moveCount = 0;
+  bool solved = false;
 
   @override
   void initState() {
     super.initState();
-    puzzle = generateRandomPuzzle();
+    var generations = 0;
+    do {
+      puzzle = PuzzleGenerator.generatePuzzle(
+        dimension: const Dimension(width: 4, height: 4),
+        themeFolder: 'themes/base',
+      );
+      generations++;
+    } while (puzzle.isSolved() && generations < 50);
+
     ticker = const Ticker();
     tickerSubscription = ticker.tick().listen(
           (newSecondsElapsed) => setState(() {
@@ -46,41 +54,17 @@ class PuzzlePageState extends State<PuzzlePage> {
     super.dispose();
   }
 
-  Puzzle generateRandomPuzzle() {
-    const dimension = Dimension(width: 4, height: 4);
-    final tiles = <Tile>[];
-
-    for (var y = 1; y <= dimension.height; y++) {
-      for (var x = 1; x <= dimension.width; x++) {
-        if (x == dimension.width && y == dimension.height) {
-          tiles.add(
-            Tile.empty(
-              id: '${x + (y - 1) * dimension.width}',
-              position: Position(x, y),
-            ),
-          );
-        } else {
-          tiles.add(
-            Tile(
-              id: '${x + (y - 1) * dimension.width}',
-              position: Position(x, y),
-              connection: const Connection.all(true),
-            ),
-          );
-        }
-      }
-    }
-
-    return Puzzle(dimension: dimension, tiles: tiles);
-  }
-
   void onTilePress(Tile tile) {
+    if (solved) return;
     final movements = puzzle.getTileMovements(tile);
     if (movements.isEmpty) return;
     // use first available move by default for now
+    final newPuzzle = puzzle.moveTiles(tile, movements.first);
+    final completed = newPuzzle.isSolved();
     setState(() {
-      puzzle = puzzle.moveTiles(tile, movements.first);
+      puzzle = newPuzzle;
       moveCount++;
+      solved = completed;
     });
   }
 
@@ -115,6 +99,7 @@ class PuzzlePageState extends State<PuzzlePage> {
             PuzzleBoard(
               puzzleDimension: puzzle.dimension,
               tiles: puzzle.tiles,
+              canInteract: !solved,
               onTilePress: onTilePress,
             ),
           ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_puzzle_hack/src/layout/breakpoint_provider.dart';
 import 'package:flutter_puzzle_hack/src/layout/responsive_layout_builder.dart';
 import 'package:flutter_puzzle_hack/src/models/dimension.dart';
 import 'package:flutter_puzzle_hack/src/models/tile.dart';
@@ -12,7 +11,7 @@ class PuzzleTile extends StatefulWidget {
     this.canInteract = true,
     this.onTileHover,
     this.onTilePress,
-    required this.asset,
+    this.asset,
   }) : super(key: key);
 
   final Tile tile;
@@ -20,7 +19,7 @@ class PuzzleTile extends StatefulWidget {
   final bool canInteract;
   final Function(Tile tile, bool hovering)? onTileHover;
   final Function(Tile tile)? onTilePress;
-  final String asset;
+  final String? asset;
 
   @override
   PuzzleTileState createState() => PuzzleTileState();
@@ -32,14 +31,6 @@ class PuzzleTileState extends State<PuzzleTile>
 
   late AnimationController _controller;
   late Animation<double> _scale;
-
-  final breakpointDimensions = <Breakpoint, double>{
-    Breakpoint.xsmall: 86,
-    Breakpoint.small: 100,
-    Breakpoint.medium: 120,
-    Breakpoint.large: 144,
-    Breakpoint.xlarge: 172,
-  };
 
   void onTileHover({required bool hovering}) {
     widget.onTileHover?.call(widget.tile, hovering);
@@ -97,12 +88,12 @@ class PuzzleTileState extends State<PuzzleTile>
               child: IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () => widget.canInteract ? onTilePress() : null,
-                icon: Image.asset(
-                  widget.asset,
-                  width: breakpointDimensions[breakpoint],
-                  height: breakpointDimensions[breakpoint],
-                  fit: BoxFit.contain,
-                ),
+                icon: widget.asset != null
+                    ? Image.asset(
+                        widget.asset!,
+                        fit: BoxFit.contain,
+                      )
+                    : const SizedBox.shrink(),
               ),
             ),
           ),

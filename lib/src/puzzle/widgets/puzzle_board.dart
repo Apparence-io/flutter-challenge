@@ -18,12 +18,14 @@ class PuzzleBoard extends StatelessWidget {
     Key? key,
     required this.puzzleDimension,
     required this.tiles,
+    required this.canInteract,
     this.onTileHover,
     this.onTilePress,
   }) : super(key: key);
 
   final Dimension puzzleDimension;
   final List<Tile> tiles;
+  final bool canInteract;
 
   final Function(Tile tile, bool hovering)? onTileHover;
   final Function(Tile tile)? onTilePress;
@@ -44,12 +46,14 @@ class PuzzleBoard extends StatelessWidget {
             child: Stack(
               children: tiles
                   .map(
-                    (t) => _PuzzleTile(
+                    (t) => PuzzleTile(
                       key: Key('puzzle_tile_${t.id}'),
                       tile: t,
                       puzzleDimension: puzzleDimension,
+                      canInteract: canInteract,
                       onTileHover: onTileHover,
                       onTilePress: onTilePress,
+                      asset: t.asset,
                     ),
                   )
                   .toList(),
@@ -58,35 +62,5 @@ class PuzzleBoard extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-// ignore: prefer-single-widget-per-file
-class _PuzzleTile extends StatelessWidget {
-  const _PuzzleTile({
-    Key? key,
-    required this.tile,
-    required this.puzzleDimension,
-    this.onTileHover,
-    this.onTilePress,
-  }) : super(key: key);
-
-  final Tile tile;
-  final Dimension puzzleDimension;
-
-  final Function(Tile tile, bool hovering)? onTileHover;
-  final Function(Tile tile)? onTilePress;
-
-  @override
-  Widget build(BuildContext context) {
-    return tile.type != TileType.empty
-        ? PuzzleTile(
-            tile: tile,
-            puzzleDimension: puzzleDimension,
-            asset: 'images/logo_apparence.png',
-            onTileHover: onTileHover,
-            onTilePress: onTilePress,
-          )
-        : const SizedBox();
   }
 }
