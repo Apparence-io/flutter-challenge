@@ -1,31 +1,17 @@
-name: Flutter App Workflow
+name: Application Check
 
 on:
-  workflow_call:
-    inputs:
-      coverage_excludes:
-        required: false
-        type: string
-        default: ""
-      flutter_channel:
-        required: false
-        type: string
-        default: "stable"
-      flutter_version:
-        required: false
-        type: string
-        default: "2.8.1"
-      working_directory:
-        required: false
-        type: string
-        default: "."
+  pull_request:
+  push:
+    paths:
+      - "lib/**"
+      - "test/**"
+      - "pubspec.yaml"
+      - "pubspec.lock"
+      - ".github/workflows/check.yml"
 
 jobs:
-  build:
-    defaults:
-      run:
-        working-directory: ${{inputs.working_directory}}
-
+  check:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,8 +19,8 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{inputs.flutter_version}}
-          channel: ${{inputs.flutter_channel}}
+          flutter-version: 2.8.1
+          channel: stable
           cache: true
 
       - name: Install Dependencies

@@ -1,0 +1,9 @@
+{
+  "hosting": {
+    "public": "build/web",
+    "site": "apparence-flutter-puzzle",
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "ignore": [".firebase", "firebase.json", "__/**"]
+  }
+}
