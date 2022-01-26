@@ -97,16 +97,12 @@ class PuzzlePageState extends State<PuzzlePage> {
     setState(() {
       puzzle = newPuzzle;
       moveCount++;
+      solved = completed;
     });
-    if (completed) _onCompletion();
-  }
-
-  void _onCompletion() {
-    _pauseTimer();
-    setState(() {
-      solved = true;
-    });
-    Timer(const Duration(milliseconds: 400), _displayVictoryDialog);
+    if (completed) {
+      _pauseTimer();
+      Timer(const Duration(milliseconds: 400), _displayVictoryDialog);
+    }
   }
 
   void _displayVictoryDialog() {
