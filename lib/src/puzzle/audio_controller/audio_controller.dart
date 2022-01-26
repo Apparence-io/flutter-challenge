@@ -1,56 +1,62 @@
+import 'dart:async';
+
+import 'package:flutter_puzzle_hack/src/puzzle/helpers/audio_player.dart';
 import 'package:just_audio/just_audio.dart';
 
 class AudioController {
-  final _audioPlayerTile = AudioPlayer();
-  final _audioPlayerMusic = AudioPlayer();
+  AudioController({
+    required this.themeFolder,
+  });
 
-  bool _isAudibleTile = true;
-  bool get isAudibleTile => _isAudibleTile;
+  final String themeFolder;
+  final _tileSoundPlayer = AudioPlayer();
+  final _musicPlayer = AudioPlayer();
 
-  bool _isAudibleMusic = true;
-  bool get isAudibleMusic => _isAudibleMusic;
-  double volumeMusic = 0.04;
+  bool _isTileSoundOn = true;
+  bool get isTileSoundOn => _isTileSoundOn;
 
-  Future<void> loadTheme(String theme) async {
-    await _audioPlayerTile.setAsset('$theme/audio/pop.wav');
-    await _audioPlayerMusic.setAsset('$theme/audio/music.mp3');
-    await _audioPlayerMusic.setVolume(volumeMusic);
+  bool _isMusicOn = true;
+  bool get isMusicOn => _isMusicOn;
+  final double _musicVolume = 0.04;
+
+  Future<void> load() async {
+    await _tileSoundPlayer.fixedSetAsset('$themeFolder/audio/pop.wav');
+    await _musicPlayer.fixedSetAsset('$themeFolder/audio/music.mp3');
+    await _tileSoundPlayer.setVolume(isTileSoundOn ? 1 : 0);
+    await _musicPlayer.setVolume(_isMusicOn ? _musicVolume : 0);
+    await _musicPlayer.setLoopMode(LoopMode.one);
   }
 
-  /// Toggle Tile Sound on/off
-  bool toggleSoundTile() {
-    _isAudibleTile = !_isAudibleTile;
-    _audioPlayerTile.setVolume(_isAudibleTile ? 1 : 0).ignore();
+  /// Toggle tile sound
+  bool toggleTileSound() {
+    _isTileSoundOn = !_isTileSoundOn;
+    unawaited(_tileSoundPlayer.setVolume(_isTileSoundOn ? 1 : 0));
 
-    return _isAudibleTile;
+    return _isTileSoundOn;
   }
 
   /// Play Tile Pop
-  Future<void> playAudioTilePop() async {
-    await _audioPlayerTile.stop();
-    await _audioPlayerTile.seek(null);
-    await _audioPlayerTile.play();
+  Future<void> playTileSound() async {
+    await _tileSoundPlayer.replay();
   }
 
-  /// Toggle Music on/off
-  bool toggleSoundMusic() {
-    _isAudibleMusic = !_isAudibleMusic;
-    _audioPlayerMusic.setVolume(_isAudibleMusic ? volumeMusic : 0).ignore();
+  /// Toggle Music
+  bool toggleMusic() {
+    _isMusicOn = !_isMusicOn;
+    unawaited(_musicPlayer.setVolume(_isMusicOn ? _musicVolume : 0));
 
-    return _isAudibleMusic;
+    return _isMusicOn;
   }
 
   /// Play Music
-  Future<void> playAudioMusic() async {
-    await _audioPlayerMusic.stop();
-    await _audioPlayerMusic.seek(null);
-    await _audioPlayerMusic.setLoopMode(LoopMode.one);
-    await _audioPlayerMusic.play();
+  Future<void> playMusic() async {
+    if (_musicPlayer.playing) return;
+    await _musicPlayer.replay();
   }
 
   /// Dispose
   Future<void> dispose() async {
-    await _audioPlayerTile.dispose();
-    await _audioPlayerMusic.dispose();
+    await _tileSoundPlayer.dispose();
+    await _musicPlayer.dispose();
   }
 }

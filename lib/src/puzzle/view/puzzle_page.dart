@@ -16,6 +16,7 @@ import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_move_counter.dart'
 import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_timer.dart';
 import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_victory_dialog.dart';
 import 'package:flutter_puzzle_hack/src/theme/app_theme.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 class PuzzlePage extends StatefulWidget {
   const PuzzlePage({Key? key}) : super(key: key);
@@ -34,23 +35,25 @@ class PuzzlePageState extends State<PuzzlePage> {
   bool solved = false;
   bool isAudibleTile = true;
   bool isAudibleMusic = true;
-
-  final _audioController = AudioController();
+  late AudioController _audioController;
 
   @override
   void initState() {
     super.initState();
     ticker = const Ticker();
     puzzle = _generatePuzzle();
+    _audioController = AudioController(themeFolder: 'assets/themes/base');
+    _audioController.load();
 
-    _audioController
-      ..loadTheme('themes/base')
-      ..playAudioMusic();
+    if (!UniversalPlatform.isWeb) {
+      unawaited(_audioController.playMusic());
+    }
   }
 
   @override
   void dispose() {
     tickerSubscription?.cancel();
+    _audioController.dispose();
     super.dispose();
   }
 
@@ -69,6 +72,9 @@ class PuzzlePageState extends State<PuzzlePage> {
   }
 
   void _startPuzzle() {
+    if (UniversalPlatform.isWeb) {
+      unawaited(_audioController.playMusic());
+    }
     setState(() {
       puzzle = _generatePuzzle();
       moveCount = 0;
@@ -100,7 +106,7 @@ class PuzzlePageState extends State<PuzzlePage> {
     if (solved) return;
     final movements = puzzle.getTileMovements(tile);
     if (movements.isEmpty) return;
-    _audioController.playAudioTilePop();
+    unawaited(_audioController.playTileSound());
     // use first available move by default for now
     final newPuzzle = puzzle.moveTiles(tile, movements.first);
     final completed = newPuzzle.isSolved();
@@ -131,13 +137,13 @@ class PuzzlePageState extends State<PuzzlePage> {
 
   void onToggleTile() {
     setState(() {
-      isAudibleTile = _audioController.toggleSoundTile();
+      isAudibleTile = _audioController.toggleTileSound();
     });
   }
 
   void onToggleMusic() {
     setState(() {
-      isAudibleMusic = _audioController.toggleSoundMusic();
+      isAudibleMusic = _audioController.toggleMusic();
     });
   }
 

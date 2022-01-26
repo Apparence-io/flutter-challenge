@@ -17,6 +17,7 @@ dependencies:
   intl: ^0.17.0
   just_audio: ^0.9.18
   logging: ^1.0.2
+  universal_platform: ^1.0.0+1
 
 dev_dependencies:
   fake_async: ^1.2.0
@@ -31,4 +32,5 @@ flutter:
   assets:
     - assets/images/
     - assets/themes/base/
+    - assets/themes/base/audio/
     
