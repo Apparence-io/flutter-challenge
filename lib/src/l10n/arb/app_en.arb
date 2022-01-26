@@ -43,13 +43,16 @@
       }
     }
   },
-  "puzzleVictoryDialogTitle": "You've Won !",
+  "puzzleVictoryDialogTitle": "You've Won!",
   "@puzzleVictoryDialogTitle": {
-    "description": "The title of Victory's dialog"
+    "description": "Title of the victory dialog"
   },
-  "puzzleVictoryDialogDescription": "Your score :",
+  "puzzleVictoryDialogDescription": "Your score:",
   "@puzzleVictoryDialogDescription": {
-    "description": "The description of Victory's dialog"
+    "description": "Description of the victory dialog"
   },
-  "close": "close"
+  "buttonCloseLabel": "Close",
+  "@buttonCloseLabel": {
+    "description": "Close button label of the victory dialog"
+  }
 }

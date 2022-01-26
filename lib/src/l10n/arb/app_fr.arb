@@ -49,7 +49,11 @@
   },
   "puzzleVictoryDialogDescription": "Ton score :",
   "@puzzleVictoryDialogDescription": {
-    "description": "Déscription du dialogue de victoire"
+    "description": "Description du dialogue de victoire"
   },
-  "close": "fermer"
+  "buttonCloseLabel": "Fermer",
+  "@buttonCloseLabel": {
+    "description": "Label du bouton fermer du dialogue de victoire"
+  }
+
 }

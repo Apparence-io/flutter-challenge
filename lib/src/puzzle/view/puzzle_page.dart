@@ -13,6 +13,7 @@ import 'package:flutter_puzzle_hack/src/puzzle/helpers/puzzle_generator.dart';
 import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_board.dart';
 import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_move_counter.dart';
 import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_timer.dart';
+import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_victory_dialog.dart';
 import 'package:flutter_puzzle_hack/src/theme/app_theme.dart';
 
 class PuzzlePage extends StatefulWidget {
@@ -82,6 +83,10 @@ class PuzzlePageState extends State<PuzzlePage> {
     tickerSubscription?.pause();
   }
 
+  void _onStartButtonPress() {
+    _startPuzzle();
+  }
+
   void _onTilePress(Tile tile) {
     if (solved) return;
     final movements = puzzle.getTileMovements(tile);
@@ -101,10 +106,20 @@ class PuzzlePageState extends State<PuzzlePage> {
     setState(() {
       solved = true;
     });
+    Timer(const Duration(milliseconds: 400), _displayVictoryDialog);
   }
 
-  void _onStartButtonPress() {
-    _startPuzzle();
+  void _displayVictoryDialog() {
+    showGeneralDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: '',
+      pageBuilder: (_, __, ___) => PuzzleVictoryDialog(
+        moveCount: moveCount,
+        timeElapsed: Duration(seconds: secondsElapsed),
+        onActionButtonPress: _startPuzzle,
+      ),
+    );
   }
 
   @override
