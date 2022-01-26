@@ -9,6 +9,7 @@ import 'package:flutter_puzzle_hack/src/models/dimension.dart';
 import 'package:flutter_puzzle_hack/src/models/puzzle.dart';
 import 'package:flutter_puzzle_hack/src/models/ticker.dart';
 import 'package:flutter_puzzle_hack/src/models/tile.dart';
+import 'package:flutter_puzzle_hack/src/puzzle/audio_controller/audio_controller.dart';
 import 'package:flutter_puzzle_hack/src/puzzle/helpers/puzzle_generator.dart';
 import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_board.dart';
 import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_move_counter.dart';
@@ -31,12 +32,20 @@ class PuzzlePageState extends State<PuzzlePage> {
   int moveCount = 0;
   bool started = false;
   bool solved = false;
+  bool isAudibleTile = true;
+  bool isAudibleMusic = true;
+
+  final _audioController = AudioController();
 
   @override
   void initState() {
     super.initState();
     ticker = const Ticker();
     puzzle = _generatePuzzle();
+
+    _audioController
+      ..loadTheme('themes/base')
+      ..playAudioMusic();
   }
 
   @override
@@ -91,9 +100,11 @@ class PuzzlePageState extends State<PuzzlePage> {
     if (solved) return;
     final movements = puzzle.getTileMovements(tile);
     if (movements.isEmpty) return;
+    _audioController.playAudioTilePop();
     // use first available move by default for now
     final newPuzzle = puzzle.moveTiles(tile, movements.first);
     final completed = newPuzzle.isSolved();
+
     setState(() {
       puzzle = newPuzzle;
       moveCount++;
@@ -118,6 +129,18 @@ class PuzzlePageState extends State<PuzzlePage> {
     );
   }
 
+  void onToggleTile() {
+    setState(() {
+      isAudibleTile = _audioController.toggleSoundTile();
+    });
+  }
+
+  void onToggleMusic() {
+    setState(() {
+      isAudibleMusic = _audioController.toggleSoundMusic();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -138,10 +161,18 @@ class PuzzlePageState extends State<PuzzlePage> {
               ),
               Row(
                 children: [
-                  const IconButton(
-                    // change audio sound on/off
-                    onPressed: null,
-                    icon: Icon(Icons.music_off),
+                  IconButton(
+                    onPressed: onToggleMusic,
+                    icon: isAudibleMusic
+                        ? const Icon(Icons.music_note)
+                        : const Icon(Icons.music_off),
+                  ),
+                  const SizedBox(width: 16),
+                  IconButton(
+                    onPressed: onToggleTile,
+                    icon: isAudibleTile
+                        ? const Icon(Icons.volume_up)
+                        : const Icon(Icons.volume_off),
                   ),
                   const SizedBox(width: 16),
                   IconButton(

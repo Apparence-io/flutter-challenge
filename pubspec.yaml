@@ -15,6 +15,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: ^0.17.0
+  just_audio: ^0.9.18
   logging: ^1.0.2
 
 dev_dependencies:
