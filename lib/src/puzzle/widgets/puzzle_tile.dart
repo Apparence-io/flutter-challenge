@@ -91,6 +91,10 @@ class PuzzleTileState extends State<PuzzleTile>
               scale: _scale,
               child: IconButton(
                 padding: EdgeInsets.zero,
+                focusColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                hoverColor: Colors.transparent,
                 onPressed:
                     widget.canInteract && isMoveable ? onTilePress : null,
                 icon: widget.asset != null
