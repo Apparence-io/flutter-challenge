@@ -62,19 +62,19 @@ class _PuzzleVictoryDialogState extends State<PuzzleVictoryDialog> {
     final theme = Theme.of(context);
 
     return ResponsiveLayoutBuilder(
-      child: (breakpoint) => SizedBox(
-        width: breakpoint.index > Breakpoint.medium.index ? 700 : 500,
-        child: Dialog(
-          clipBehavior: Clip.hardEdge,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(12),
-            ),
+      child: (breakpoint) => Dialog(
+        clipBehavior: Clip.hardEdge,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(12),
           ),
-          child: Padding(
-            padding: EdgeInsets.all(
-              breakpoint.index > Breakpoint.medium.index ? 40 : 20,
-            ),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(
+            breakpoint.index > Breakpoint.small.index ? 40 : 20,
+          ),
+          child: SizedBox(
+            width: breakpoint.index > Breakpoint.small.index ? 400 : 300,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
