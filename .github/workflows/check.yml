@@ -9,6 +9,8 @@ on:
       - "pubspec.yaml"
       - "pubspec.lock"
       - ".github/workflows/check.yml"
+    branches-ignore:
+      - main
 
 jobs:
   check:
