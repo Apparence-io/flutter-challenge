@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_puzzle_hack/src/l10n/l10n.dart';
 import 'package:flutter_puzzle_hack/src/layout/breakpoint_provider.dart';
 import 'package:flutter_puzzle_hack/src/layout/responsive_layout_builder.dart';
+import 'package:flutter_puzzle_hack/src/puzzle/widgets/scale_up_animation.dart';
 
 final _iconDimensions = <Breakpoint, double>{
   Breakpoint.xsmall: 24,
@@ -45,39 +46,42 @@ class PuzzleTimer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveLayoutBuilder(
-      // ignore: prefer-extracting-callbacks
-      child: (breakpoint) {
-        final theme = Theme.of(context);
-        final currentTextStyle = textStyle ??
-            ((breakpoint.index <= Breakpoint.small.index)
-                ? theme.textTheme.headline4
-                : theme.textTheme.headline3);
+    return ScaleUpAnimation(
+      delayMilliseconds: 500,
+      child: ResponsiveLayoutBuilder(
+        // ignore: prefer-extracting-callbacks
+        child: (breakpoint) {
+          final theme = Theme.of(context);
+          final currentTextStyle = textStyle ??
+              ((breakpoint.index <= Breakpoint.small.index)
+                  ? theme.textTheme.headline4
+                  : theme.textTheme.headline3);
 
-        final currentIconSize = iconSize ??
-            Size(_iconDimensions[breakpoint]!, _iconDimensions[breakpoint]!);
+          final currentIconSize = iconSize ??
+              Size(_iconDimensions[breakpoint]!, _iconDimensions[breakpoint]!);
 
-        return Row(
-          mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
-          children: [
-            AnimatedDefaultTextStyle(
-              style: currentTextStyle!,
-              duration: const Duration(milliseconds: 500),
-              child: Text(
-                _formatDuration(timeElapsed),
-                key: ValueKey(timeElapsed.inSeconds),
-                semanticsLabel: _getDurationLabel(context, timeElapsed),
+          return Row(
+            mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
+            children: [
+              AnimatedDefaultTextStyle(
+                style: currentTextStyle!,
+                duration: const Duration(milliseconds: 500),
+                child: Text(
+                  _formatDuration(timeElapsed),
+                  key: ValueKey(timeElapsed.inSeconds),
+                  semanticsLabel: _getDurationLabel(context, timeElapsed),
+                ),
               ),
-            ),
-            SizedBox(width: iconPadding ?? 8),
-            Image.asset(
-              'assets/images/timer_icon.png',
-              width: currentIconSize.width,
-              height: currentIconSize.height,
-            ),
-          ],
-        );
-      },
+              SizedBox(width: iconPadding ?? 8),
+              Image.asset(
+                'assets/images/timer_icon.png',
+                width: currentIconSize.width,
+                height: currentIconSize.height,
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

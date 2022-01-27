@@ -4,6 +4,7 @@ import 'package:flutter_puzzle_hack/src/layout/responsive_layout_builder.dart';
 import 'package:flutter_puzzle_hack/src/models/dimension.dart';
 import 'package:flutter_puzzle_hack/src/models/tile.dart';
 import 'package:flutter_puzzle_hack/src/puzzle/widgets/puzzle_tile.dart';
+import 'package:flutter_puzzle_hack/src/puzzle/widgets/scale_up_animation.dart';
 
 final _breakpointDimensions = <Breakpoint, double>{
   Breakpoint.xsmall: 360,
@@ -36,30 +37,33 @@ class PuzzleBoard extends StatelessWidget {
       return const CircularProgressIndicator();
     }
 
-    return ResponsiveLayoutBuilder(
-      child: (breakpoint) => Card(
-        child: Padding(
-          padding: const EdgeInsets.all(4),
-          child: SizedBox(
-            key: Key('puzzle_board_${breakpoint.name}'),
-            width: _breakpointDimensions[breakpoint],
-            height: puzzleDimension.height /
-                puzzleDimension.width.toDouble() *
-                _breakpointDimensions[breakpoint]!,
-            child: Stack(
-              children: tiles
-                  .map(
-                    (t) => PuzzleTile(
-                      key: Key('puzzle_tile_${t.id}'),
-                      tile: t,
-                      puzzleDimension: puzzleDimension,
-                      canInteract: canInteract,
-                      onTileHover: onTileHover,
-                      onTilePress: onTilePress,
-                      asset: t.asset,
-                    ),
-                  )
-                  .toList(),
+    return ScaleUpAnimation(
+      delayMilliseconds: 200,
+      child: ResponsiveLayoutBuilder(
+        child: (breakpoint) => Card(
+          child: Padding(
+            padding: const EdgeInsets.all(4),
+            child: SizedBox(
+              key: Key('puzzle_board_${breakpoint.name}'),
+              width: _breakpointDimensions[breakpoint],
+              height: puzzleDimension.height /
+                  puzzleDimension.width.toDouble() *
+                  _breakpointDimensions[breakpoint]!,
+              child: Stack(
+                children: tiles
+                    .map(
+                      (t) => PuzzleTile(
+                        key: Key('puzzle_tile_${t.id}'),
+                        tile: t,
+                        puzzleDimension: puzzleDimension,
+                        canInteract: canInteract,
+                        onTileHover: onTileHover,
+                        onTilePress: onTilePress,
+                        asset: t.asset,
+                      ),
+                    )
+                    .toList(),
+              ),
             ),
           ),
         ),

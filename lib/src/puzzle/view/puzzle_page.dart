@@ -193,74 +193,85 @@ class PuzzlePageState extends State<PuzzlePage> {
           ),
           Expanded(
             child: ResponsiveLayoutBuilder(
-              child: (breakpoint) => Flex(
-                direction: breakpoint.index >= Breakpoint.medium.index
-                    ? Axis.horizontal
-                    : Axis.vertical,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        l10n.appTitle,
-                        style: breakpoint.index >= Breakpoint.medium.index
-                            ? Theme.of(context).textTheme.headline1
-                            : Theme.of(context)
-                                .textTheme
-                                .headline1!
-                                .copyWith(fontSize: 25),
-                      ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        width: 150,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: _onStartButtonPress,
-                          child: Text(
-                            started
-                                ? l10n.buttonRestartText
-                                : l10n.buttonStartText,
-                            style: Theme.of(context).textTheme.button,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 500),
-                    decoration: BoxDecoration(
-                      color: extraTheme(context).puzzleBackgroundColor,
-                    ),
-                    child: Column(
+              child: (breakpoint) => AnimatedSwitcher(
+                duration: const Duration(milliseconds: 450),
+                switchInCurve: Curves.easeIn,
+                switchOutCurve: Curves.easeIn,
+                child: Flex(
+                  key: ValueKey<bool>(started),
+                  direction: breakpoint.index >= Breakpoint.medium.index
+                      ? Axis.horizontal
+                      : Axis.vertical,
+                  mainAxisAlignment: started
+                      ? MainAxisAlignment.spaceEvenly
+                      : MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        PuzzleBoard(
-                          puzzleDimension: puzzle.dimension,
-                          tiles: puzzle.tiles,
-                          canInteract: started && !solved,
-                          onTilePress: _onTilePress,
+                        Text(
+                          l10n.appTitle,
+                          style: breakpoint.index >= Breakpoint.medium.index
+                              ? Theme.of(context).textTheme.headline1
+                              : Theme.of(context)
+                                  .textTheme
+                                  .headline1!
+                                  .copyWith(fontSize: 25),
                         ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            PuzzleTimer(
-                              timeElapsed: Duration(seconds: secondsElapsed),
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          width: 150,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: _onStartButtonPress,
+                            child: Text(
+                              started
+                                  ? l10n.buttonRestartText
+                                  : l10n.buttonStartText,
+                              style: Theme.of(context).textTheme.button,
                             ),
-                            const SizedBox(
-                              width: 64,
-                            ),
-                            PuzzleMoveCounter(moveCount: moveCount),
-                          ],
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                    if (started)
+                      Container(
+                        decoration: BoxDecoration(
+                          color: extraTheme(context).puzzleBackgroundColor,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            PuzzleBoard(
+                              puzzleDimension: puzzle.dimension,
+                              tiles: puzzle.tiles,
+                              canInteract: started && !solved,
+                              onTilePress: _onTilePress,
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                PuzzleTimer(
+                                  timeElapsed:
+                                      Duration(seconds: secondsElapsed),
+                                ),
+                                const SizedBox(
+                                  width: 64,
+                                ),
+                                PuzzleMoveCounter(moveCount: moveCount),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    else
+                      const SizedBox.shrink(),
+                  ],
+                ),
               ),
             ),
           ),
