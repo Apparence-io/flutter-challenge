@@ -14,7 +14,7 @@ class App extends StatelessWidget {
   const App({
     Key? key,
     required this.settingsController,
-    this.initialRoute = '/',
+    this.initialRoute = 'splashscreen',
   }) : super(key: key);
 
   final String? initialRoute;

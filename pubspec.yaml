@@ -17,6 +17,7 @@ dependencies:
   intl: ^0.17.0
   just_audio: ^0.9.18
   logging: ^1.0.2
+  rive: ^0.8.1
   universal_platform: ^1.0.0+1
 
 dev_dependencies:
@@ -33,4 +34,5 @@ flutter:
     - assets/images/
     - assets/themes/base/
     - assets/themes/base/audio/
+    - assets/animations/
     

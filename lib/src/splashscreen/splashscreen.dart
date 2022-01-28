@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_puzzle_hack/src/l10n/l10n.dart';
 import 'package:flutter_puzzle_hack/src/layout/breakpoint_provider.dart';
 import 'package:flutter_puzzle_hack/src/layout/responsive_layout_builder.dart';
+import 'package:rive/rive.dart';
 
 class Splashscreen extends StatefulWidget {
   const Splashscreen({
     Key? key,
-    this.duration = const Duration(milliseconds: 3000),
+    this.duration = const Duration(milliseconds: 2700),
     required this.onDone,
   }) : super(key: key);
 
@@ -72,18 +73,17 @@ class SplashscreenState extends State<Splashscreen>
                 child: (breakpoint) => Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    const SizedBox(
+                      height: 100,
+                      child: RiveAnimation.asset(
+                        'assets/animations/apparence.riv',
+                      ),
+                    ),
                     Text(
-                      l10n.appTitle,
+                      'Apparence.io',
                       style: breakpoint.index > Breakpoint.medium.index
                           ? Theme.of(context).textTheme.headline2
                           : Theme.of(context).textTheme.headline3,
-                    ),
-                    const SizedBox(height: 50),
-                    Image.asset(
-                      'assets/images/flutter_logo.png',
-                      fit: BoxFit.contain,
-                      width:
-                          breakpoint.index > Breakpoint.medium.index ? 150 : 75,
                     ),
                   ],
                 ),
