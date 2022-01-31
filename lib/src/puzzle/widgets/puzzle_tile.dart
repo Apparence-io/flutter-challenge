@@ -1,7 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_puzzle_hack/src/layout/responsive_layout_builder.dart';
+import 'package:flutter_puzzle_hack/src/models/connection.dart';
 import 'package:flutter_puzzle_hack/src/models/dimension.dart';
 import 'package:flutter_puzzle_hack/src/models/tile.dart';
+import 'package:rive/rive.dart';
 
 class PuzzleTile extends StatefulWidget {
   const PuzzleTile({
@@ -11,7 +16,7 @@ class PuzzleTile extends StatefulWidget {
     this.canInteract = true,
     this.onTileHover,
     this.onTilePress,
-    this.asset,
+    this.onTileFillAnimationComplete,
   }) : super(key: key);
 
   final Tile tile;
@@ -19,7 +24,7 @@ class PuzzleTile extends StatefulWidget {
   final bool canInteract;
   final Function(Tile tile, bool hovering)? onTileHover;
   final Function(Tile tile)? onTilePress;
-  final String? asset;
+  final Function(Tile tile)? onTileFillAnimationComplete;
 
   @override
   PuzzleTileState createState() => PuzzleTileState();
@@ -31,6 +36,9 @@ class PuzzleTileState extends State<PuzzleTile>
 
   late AnimationController _controller;
   late Animation<double> _scale;
+
+  Artboard? _riveArtboard;
+  SMIInput<double>? _fillAnimationDirectionInput;
 
   bool get isMoveable => widget.tile.type == TileType.normal;
 
@@ -60,13 +68,74 @@ class PuzzleTileState extends State<PuzzleTile>
         curve: const Interval(0, 1, curve: Curves.easeInOut),
       ),
     );
+
+    _loadAnimation();
+  }
+
+  @override
+  void didUpdateWidget(PuzzleTile oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.tile.asset != widget.tile.asset) {
+      _loadAnimation();
+    }
+    if (oldWidget.tile.filling != widget.tile.filling) {
+      if (widget.tile.filling == null ||
+          widget.tile.filling == const Connection.all(false)) {
+        _loadAnimation();
+      } else {
+        _startFillAnimation(widget.tile.filling!);
+      }
+    }
+  }
+
+  Future<void> _loadAnimation() async {
+    setState(() {
+      _riveArtboard = null;
+    });
+    if (widget.tile.asset?.endsWith('.riv') != true) return;
+    // load animation
+    final data = await rootBundle.load(widget.tile.asset!);
+    final file = RiveFile.import(data);
+    final artboard = file.mainArtboard;
+    // init state machine controller
+    final controller = StateMachineController.fromArtboard(
+      artboard,
+      'Filling',
+      onStateChange: (_, state) => _onRiveStateChange(state),
+    );
+    if (controller != null) {
+      artboard.addController(controller);
+      _fillAnimationDirectionInput = controller.findInput<double>('Direction');
+      _fillAnimationDirectionInput?.value = 0;
+    }
+    setState(() {
+      _riveArtboard = artboard;
+    });
+  }
+
+  void _startFillAnimation(Connection filling) {
+    var direction = 0.0;
+    if (filling.left) {
+      direction = 2;
+    } else if (filling.top) {
+      direction = 1;
+    } else if (filling.right) {
+      direction = 4;
+    } else if (filling.bottom) {
+      direction = 3;
+    }
+    _fillAnimationDirectionInput?.value = direction;
+  }
+
+  void _onRiveStateChange(String state) {
+    if (state == 'ExitState' || state == 'End') {
+      widget.onTileFillAnimationComplete?.call(widget.tile);
+    }
   }
 
   @override
   void dispose() {
-    _controller
-      ..reverse()
-      ..dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -85,8 +154,12 @@ class PuzzleTileState extends State<PuzzleTile>
           widthFactor: 1 / widget.puzzleDimension.width,
           heightFactor: 1 / widget.puzzleDimension.height,
           child: MouseRegion(
-            onEnter: isMoveable ? (_) => onTileHover(hovering: true) : null,
-            onExit: isMoveable ? (_) => onTileHover(hovering: false) : null,
+            onEnter: widget.canInteract && isMoveable
+                ? (_) => onTileHover(hovering: true)
+                : null,
+            onExit: widget.canInteract && isMoveable
+                ? (_) => onTileHover(hovering: false)
+                : null,
             child: ScaleTransition(
               scale: _scale,
               child: IconButton(
@@ -97,9 +170,9 @@ class PuzzleTileState extends State<PuzzleTile>
                 hoverColor: Colors.transparent,
                 onPressed:
                     widget.canInteract && isMoveable ? onTilePress : null,
-                icon: widget.asset != null
-                    ? Image.asset(
-                        widget.asset!,
+                icon: _riveArtboard != null
+                    ? Rive(
+                        artboard: _riveArtboard!,
                         fit: BoxFit.contain,
                       )
                     : const SizedBox.shrink(),

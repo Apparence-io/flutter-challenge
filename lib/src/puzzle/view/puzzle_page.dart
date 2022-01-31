@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_puzzle_hack/src/l10n/l10n.dart';
 import 'package:flutter_puzzle_hack/src/layout/breakpoint_provider.dart';
 import 'package:flutter_puzzle_hack/src/layout/responsive_layout_builder.dart';
+import 'package:flutter_puzzle_hack/src/models/connection.dart';
 import 'package:flutter_puzzle_hack/src/models/dimension.dart';
 import 'package:flutter_puzzle_hack/src/models/puzzle.dart';
 import 'package:flutter_puzzle_hack/src/models/ticker.dart';
@@ -27,6 +28,8 @@ class PuzzlePage extends StatefulWidget {
 
 class PuzzlePageState extends State<PuzzlePage> {
   late Puzzle puzzle;
+  Set<String> remainingFillings = <String>{};
+  Set<String> filledTiles = <String>{};
   late Ticker ticker;
   StreamSubscription<int>? tickerSubscription;
   int secondsElapsed = 0;
@@ -77,6 +80,8 @@ class PuzzlePageState extends State<PuzzlePage> {
     }
     setState(() {
       puzzle = _generatePuzzle();
+      filledTiles = <String>{};
+      remainingFillings = <String>{};
       moveCount = 0;
       secondsElapsed = 0;
       started = true;
@@ -116,9 +121,81 @@ class PuzzlePageState extends State<PuzzlePage> {
       moveCount++;
       solved = completed;
     });
+
     if (completed) {
-      _pauseTimer();
+      _onCompletion();
+    }
+  }
+
+  void _onCompletion() {
+    _pauseTimer();
+    final startTiles = puzzle.tiles.where((t) => t.type == TileType.start);
+    final fillings = <String>{}..addAll(startTiles.map((e) => e.id));
+    for (final tile in startTiles) {
+      fillings.addAll(puzzle.getTileConnections(tile).map((e) => e.id));
+    }
+    remainingFillings = fillings;
+    filledTiles = <String>{};
+    for (final tile in startTiles) {
+      _fillTile(
+        tile,
+        const Connection.fromLTRB(false, true, false, false),
+      );
+    }
+  }
+
+  void _fillTile(Tile tile, Connection filling) {
+    // ignore already filled tiles
+    if (filledTiles.contains(tile.id)) return;
+    filledTiles.add(tile.id);
+
+    final newPuzzle = Puzzle(dimension: puzzle.dimension, tiles: puzzle.tiles);
+    final newTile = Tile(
+      id: tile.id,
+      position: tile.position,
+      connection: tile.connection,
+      type: tile.type,
+      asset: tile.asset,
+      filling: filling,
+    );
+    newPuzzle.setTile(tile.position, newTile);
+    setState(() => puzzle = newPuzzle);
+  }
+
+  void _onTileFillAnimationComplete(Tile tile) {
+    remainingFillings.remove(tile.id);
+    if (remainingFillings.isEmpty) {
       Timer(const Duration(milliseconds: 400), _displayVictoryDialog);
+
+      return;
+    }
+
+    final neighbors = puzzle.getTileNeighbors(tile);
+    for (final n in neighbors) {
+      // ignore already filled tiles
+      if (filledTiles.contains(n.id)) continue;
+
+      if (tile.position.x > n.position.x) {
+        // left, fill from right
+        if (tile.connection.left && n.connection.right) {
+          _fillTile(n, const Connection.fromLTRB(false, false, true, false));
+        }
+      } else if (tile.position.x < n.position.x) {
+        // right, fill from left
+        if (tile.connection.right && n.connection.left) {
+          _fillTile(n, const Connection.fromLTRB(true, false, false, false));
+        }
+      } else if (tile.position.y > n.position.y) {
+        // top, fill from bottom
+        if (tile.connection.top && n.connection.bottom) {
+          _fillTile(n, const Connection.fromLTRB(false, false, false, true));
+        }
+      } else if (tile.position.y < n.position.y) {
+        // bottom, fill from top
+        if (tile.connection.bottom && n.connection.top) {
+          _fillTile(n, const Connection.fromLTRB(false, true, false, false));
+        }
+      }
     }
   }
 
@@ -248,6 +325,8 @@ class PuzzlePageState extends State<PuzzlePage> {
                               tiles: puzzle.tiles,
                               canInteract: started && !solved,
                               onTilePress: _onTilePress,
+                              onTileFillAnimationComplete:
+                                  _onTileFillAnimationComplete,
                             ),
                             const SizedBox(
                               height: 16,

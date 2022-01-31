@@ -22,6 +22,7 @@ class PuzzleBoard extends StatelessWidget {
     required this.canInteract,
     this.onTileHover,
     this.onTilePress,
+    this.onTileFillAnimationComplete,
   }) : super(key: key);
 
   final Dimension puzzleDimension;
@@ -30,6 +31,7 @@ class PuzzleBoard extends StatelessWidget {
 
   final Function(Tile tile, bool hovering)? onTileHover;
   final Function(Tile tile)? onTilePress;
+  final Function(Tile tile)? onTileFillAnimationComplete;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,8 @@ class PuzzleBoard extends StatelessWidget {
                         canInteract: canInteract,
                         onTileHover: onTileHover,
                         onTilePress: onTilePress,
-                        asset: t.asset,
+                        onTileFillAnimationComplete:
+                            onTileFillAnimationComplete,
                       ),
                     )
                     .toList(),
