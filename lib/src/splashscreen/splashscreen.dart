@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_puzzle_hack/src/l10n/l10n.dart';
 import 'package:flutter_puzzle_hack/src/layout/breakpoint_provider.dart';
 import 'package:flutter_puzzle_hack/src/layout/responsive_layout_builder.dart';
 import 'package:rive/rive.dart';
@@ -60,8 +59,6 @@ class SplashscreenState extends State<Splashscreen>
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
     return Scaffold(
       body: Center(
         child: AnimatedBuilder(
