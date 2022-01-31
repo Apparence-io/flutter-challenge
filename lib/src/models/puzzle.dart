@@ -74,15 +74,17 @@ class Puzzle extends Equatable {
   }) {
     paths ??= <String>{};
 
+    // ignore already checked tiles
+    if (paths.contains(tileA.id)) return false;
+    // add to checked tiles
+    paths.add(tileA.id);
+
     final neighbors = getTileNeighbors(tileA);
     final connectedTiles = <Tile>[];
 
     for (final n in neighbors) {
-      if (paths.contains('${tileA.id}_${n.id}')) continue;
-
-      paths
-        ..add('${tileA.id}_${n.id}')
-        ..add('${n.id}_${tileA.id}');
+      // ignore already checked tiles
+      if (paths.contains(n.id)) continue;
 
       if (tileA.position.x > n.position.x) {
         // left
@@ -121,17 +123,17 @@ class Puzzle extends Equatable {
     paths ??= <String>{};
     connections ??= [];
 
+    // ignore already checked tiles
+    if (paths.contains(tile.id)) return connections;
+    // add to checked tiles
+    paths.add(tile.id);
+
     final neighbors = getTileNeighbors(tile);
     final connectedTiles = <Tile>[];
 
     for (final n in neighbors) {
       // ignore already checked tiles
-      if (paths.contains('${tile.id}_${n.id}')) continue;
-
-      // add to checked tiles
-      paths
-        ..add('${tile.id}_${n.id}')
-        ..add('${n.id}_${tile.id}');
+      if (paths.contains(n.id)) continue;
 
       if (tile.position.x > n.position.x) {
         // left connection
