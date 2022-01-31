@@ -12,18 +12,21 @@ class Tile extends Equatable {
     this.connection = const Connection.all(false),
     this.type = TileType.normal,
     this.asset,
+    this.filling,
   });
 
   const Tile.empty({required this.id, required this.position})
       : connection = const Connection.all(false),
         type = TileType.empty,
-        asset = null;
+        asset = null,
+        filling = null;
 
   final String id;
   final Position position;
   final Connection connection;
   final TileType type;
   final String? asset;
+  final Connection? filling;
 
   Tile copyWith({required Position position}) {
     return Tile(
@@ -32,11 +35,12 @@ class Tile extends Equatable {
       connection: connection,
       type: type,
       asset: asset,
+      filling: filling,
     );
   }
 
   @override
-  List<Object?> get props => [id, position, connection, type, asset];
+  List<Object?> get props => [id, position, connection, type, asset, filling];
 }
 
 /// Tile types.

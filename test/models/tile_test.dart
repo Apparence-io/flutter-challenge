@@ -10,6 +10,7 @@ void main() {
   const connection = Connection.all(true);
   const type = TileType.start;
   const asset = 'asset.png';
+  const filling = Connection.all(false);
 
   group('Tile', () {
     test('supports comparison', () {
@@ -20,6 +21,7 @@ void main() {
           connection: connection,
           type: type,
           asset: asset,
+          filling: filling,
         ),
         const Tile(
           id: id,
@@ -27,6 +29,7 @@ void main() {
           connection: connection,
           type: type,
           asset: asset,
+          filling: filling,
         ),
       );
 
@@ -37,6 +40,7 @@ void main() {
           connection: connection,
           type: type,
           asset: asset,
+          filling: filling,
         ).props,
         const Tile(
           id: id,
@@ -44,6 +48,7 @@ void main() {
           connection: connection,
           type: type,
           asset: asset,
+          filling: filling,
         ).props,
       );
     });
