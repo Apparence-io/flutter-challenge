@@ -238,7 +238,7 @@ class PuzzlePageState extends State<PuzzlePage> {
             'assets/images/background.png',
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
           ),
           Column(
             children: [
@@ -293,21 +293,28 @@ class PuzzlePageState extends State<PuzzlePage> {
                               : CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(
-                              'assets/images/glouglou.png',
-                              width: 250,
-                            ),
-                            const SizedBox(height: 20),
-                            Text(
-                              l10n.puzzlePageTitle,
-                              style: breakpoint.index >= Breakpoint.medium.index
-                                  ? Theme.of(context).textTheme.headline1
-                                  : Theme.of(context)
-                                      .textTheme
-                                      .headline1!
-                                      .copyWith(fontSize: 25),
-                            ),
-                            const SizedBox(height: 16),
+                            if (breakpoint.index >= Breakpoint.medium.index ||
+                                !started)
+                              Column(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/glouglou.png',
+                                    width: 350,
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Text(
+                                    l10n.puzzlePageTitle,
+                                    style: breakpoint.index >=
+                                            Breakpoint.medium.index
+                                        ? Theme.of(context).textTheme.headline1
+                                        : Theme.of(context)
+                                            .textTheme
+                                            .headline1!
+                                            .copyWith(fontSize: 25),
+                                  ),
+                                  const SizedBox(height: 16),
+                                ],
+                              ),
                             Text(
                               // l10n.appSubTitle,
                               l10n.puzzlePageSubTitle,
@@ -352,17 +359,6 @@ class PuzzlePageState extends State<PuzzlePage> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                PuzzleBoard(
-                                  puzzleDimension: puzzle.dimension,
-                                  tiles: puzzle.tiles,
-                                  canInteract: started && !solved,
-                                  onTilePress: _onTilePress,
-                                  onTileFillAnimationComplete:
-                                      _onTileFillAnimationComplete,
-                                ),
-                                const SizedBox(
-                                  height: 16,
-                                ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -376,6 +372,17 @@ class PuzzlePageState extends State<PuzzlePage> {
                                     PuzzleMoveCounter(moveCount: moveCount),
                                   ],
                                 ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                PuzzleBoard(
+                                  puzzleDimension: puzzle.dimension,
+                                  tiles: puzzle.tiles,
+                                  canInteract: started && !solved,
+                                  onTilePress: _onTilePress,
+                                  onTileFillAnimationComplete:
+                                      _onTileFillAnimationComplete,
+                                ),
                               ],
                             ),
                           )
@@ -386,6 +393,11 @@ class PuzzlePageState extends State<PuzzlePage> {
                   ),
                 ),
               ),
+              Image.asset(
+                'assets/images/logos.png',
+                height: 30,
+              ),
+              const SizedBox(height: 10),
             ],
           ),
         ],
