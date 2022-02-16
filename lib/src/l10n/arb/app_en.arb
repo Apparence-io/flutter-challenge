@@ -8,6 +8,10 @@
   "@puzzlePageTitle": {
     "description": "The title of Puzzle Page"
   },
+  "puzzlePageSubTitle": "To win, wash the duck.",
+    "@appTitle": {
+      "description": "The subtitle of the application"
+  },
   "buttonStartText": "Start Game",
   "@buttonStartText": {
     "description": "Start the game"

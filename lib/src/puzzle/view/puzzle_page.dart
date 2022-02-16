@@ -224,135 +224,169 @@ class PuzzlePageState extends State<PuzzlePage> {
     });
   }
 
+  bool _isTapped = false;
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
 
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      body: Column(
+      body: Stack(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Image.asset(
+            'assets/images/background.png',
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            fit: BoxFit.fill,
+          ),
+          Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Image.asset(
-                  'assets/images/logo_flutter_white.png',
-                  height: 40,
-                ),
-              ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton(
+                    iconSize: 50,
                     onPressed: onToggleMusic,
                     icon: isAudibleMusic
-                        ? const Icon(Icons.music_note)
-                        : const Icon(Icons.music_off),
+                        ? Image.asset(
+                            'assets/images/button/button_music_on.png',
+                          )
+                        : Image.asset(
+                            'assets/images/button/button_music_off.png',
+                          ),
                   ),
                   const SizedBox(width: 16),
                   IconButton(
+                    iconSize: 50,
                     onPressed: onToggleTile,
                     icon: isAudibleTile
-                        ? const Icon(Icons.volume_up)
-                        : const Icon(Icons.volume_off),
-                  ),
-                  const SizedBox(width: 16),
-                  IconButton(
-                    icon: const Icon(Icons.settings),
-                    onPressed: () =>
-                        Navigator.restorablePushNamed(context, '/settings'),
+                        ? Image.asset(
+                            'assets/images/button/button_sound_on.png',
+                          )
+                        : Image.asset(
+                            'assets/images/button/button_sound_off.png',
+                          ),
                   ),
                   const SizedBox(width: 16),
                 ],
               ),
-            ],
-          ),
-          Expanded(
-            child: ResponsiveLayoutBuilder(
-              child: (breakpoint) => AnimatedSwitcher(
-                duration: const Duration(milliseconds: 450),
-                switchInCurve: Curves.easeIn,
-                switchOutCurve: Curves.easeIn,
-                child: Flex(
-                  key: ValueKey<bool>(started),
-                  direction: breakpoint.index >= Breakpoint.medium.index
-                      ? Axis.horizontal
-                      : Axis.vertical,
-                  mainAxisAlignment: started
-                      ? MainAxisAlignment.spaceEvenly
-                      : MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+              Expanded(
+                child: ResponsiveLayoutBuilder(
+                  child: (breakpoint) => AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 450),
+                    switchInCurve: Curves.easeIn,
+                    switchOutCurve: Curves.easeIn,
+                    child: Flex(
+                      key: ValueKey<bool>(started),
+                      direction: breakpoint.index >= Breakpoint.medium.index
+                          ? Axis.horizontal
+                          : Axis.vertical,
+                      mainAxisAlignment: started
+                          ? MainAxisAlignment.spaceEvenly
+                          : MainAxisAlignment.center,
                       children: [
-                        Text(
-                          l10n.appTitle,
-                          style: breakpoint.index >= Breakpoint.medium.index
-                              ? Theme.of(context).textTheme.headline1
-                              : Theme.of(context)
-                                  .textTheme
-                                  .headline1!
-                                  .copyWith(fontSize: 25),
-                        ),
-                        const SizedBox(height: 16),
-                        SizedBox(
-                          width: 150,
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: _onStartButtonPress,
-                            child: Text(
-                              started
-                                  ? l10n.buttonRestartText
-                                  : l10n.buttonStartText,
-                              style: Theme.of(context).textTheme.button,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    if (started)
-                      Container(
-                        decoration: BoxDecoration(
-                          color: extraTheme(context).puzzleBackgroundColor,
-                        ),
-                        child: Column(
+                        Column(
+                          crossAxisAlignment: started &&
+                                  breakpoint.index >= Breakpoint.medium.index
+                              ? CrossAxisAlignment.start
+                              : CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            PuzzleBoard(
-                              puzzleDimension: puzzle.dimension,
-                              tiles: puzzle.tiles,
-                              canInteract: started && !solved,
-                              onTilePress: _onTilePress,
-                              onTileFillAnimationComplete:
-                                  _onTileFillAnimationComplete,
+                            Image.asset(
+                              'assets/images/glouglou.png',
+                              width: 250,
                             ),
-                            const SizedBox(
-                              height: 16,
+                            const SizedBox(height: 20),
+                            Text(
+                              l10n.puzzlePageTitle,
+                              style: breakpoint.index >= Breakpoint.medium.index
+                                  ? Theme.of(context).textTheme.headline1
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .headline1!
+                                      .copyWith(fontSize: 25),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                PuzzleTimer(
-                                  timeElapsed:
-                                      Duration(seconds: secondsElapsed),
+                            const SizedBox(height: 16),
+                            Text(
+                              // l10n.appSubTitle,
+                              l10n.puzzlePageSubTitle,
+                              style: breakpoint.index >= Breakpoint.medium.index
+                                  ? Theme.of(context).textTheme.headline4
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .headline4!
+                                      .copyWith(fontSize: 18),
+                            ),
+                            const SizedBox(height: 16),
+                            SizedBox(
+                              width: 200,
+                              height: 50,
+                              child: GestureDetector(
+                                onTapDown: (_) => setState(
+                                  () => _isTapped = true,
                                 ),
-                                const SizedBox(
-                                  width: 64,
+                                onTapUp: (_) => setState(
+                                  () => _isTapped = false,
                                 ),
-                                PuzzleMoveCounter(moveCount: moveCount),
-                              ],
+                                onTap: _onStartButtonPress,
+                                child: Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  children: [
+                                    Image.asset(
+                                      _isTapped
+                                          ? 'assets/images/button/button_hover.png'
+                                          : 'assets/images/button/button.png',
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),
-                      )
-                    else
-                      const SizedBox.shrink(),
-                  ],
+                        if (started)
+                          Container(
+                            decoration: BoxDecoration(
+                              color: extraTheme(context).puzzleBackgroundColor,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                PuzzleBoard(
+                                  puzzleDimension: puzzle.dimension,
+                                  tiles: puzzle.tiles,
+                                  canInteract: started && !solved,
+                                  onTilePress: _onTilePress,
+                                  onTileFillAnimationComplete:
+                                      _onTileFillAnimationComplete,
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    PuzzleTimer(
+                                      timeElapsed:
+                                          Duration(seconds: secondsElapsed),
+                                    ),
+                                    const SizedBox(
+                                      width: 64,
+                                    ),
+                                    PuzzleMoveCounter(moveCount: moveCount),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        else
+                          const SizedBox.shrink(),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
         ],
       ),

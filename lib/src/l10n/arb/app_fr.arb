@@ -8,6 +8,10 @@
   "@puzzlePageTitle": {
     "description": "Le titre de la page du puzzle"
   },
+  "puzzlePageSubTitle": "Pour gagner, arrose le canard",
+    "@appTitle": {
+      "description": "Le sous-titre de la page du puzzle"
+  },
   "buttonStartText": "Commencer",
   "@buttonStartText": {
     "description": "Démarrage du jeu"

@@ -67,7 +67,9 @@ abstract class AppTheme {
     ),
   );
 
-  static final lightExtra = ExtraThemeData();
+  static final lightExtra = ExtraThemeData(
+    puzzleBackgroundColor: Colors.transparent,
+  );
 
   static final dark = ThemeData.dark().copyWith(
     brightness: Brightness.dark,
@@ -81,7 +83,7 @@ abstract class AppTheme {
       headline1: TextStyle(
         fontSize: 42,
         fontWeight: FontWeight.w600,
-        color: Color(0xFFFFFFFF),
+        color: Color(0xFF00DDFF),
       ),
       headline2: TextStyle(
         fontSize: 35,
@@ -133,7 +135,9 @@ abstract class AppTheme {
     ),
   );
 
-  static final darkExtra = ExtraThemeData();
+  static final darkExtra = ExtraThemeData(
+    puzzleBackgroundColor: Colors.transparent,
+  );
 }
 
 class ExtraThemeData {

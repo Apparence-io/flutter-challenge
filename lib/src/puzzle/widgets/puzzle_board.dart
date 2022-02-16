@@ -43,6 +43,7 @@ class PuzzleBoard extends StatelessWidget {
       delayMilliseconds: 200,
       child: ResponsiveLayoutBuilder(
         child: (breakpoint) => Card(
+          color: Colors.transparent,
           child: Padding(
             padding: const EdgeInsets.all(4),
             child: SizedBox(
