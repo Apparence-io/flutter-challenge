@@ -1,10 +1,10 @@
 {
   "@@locale": "fr",
-  "appTitle": "Flutter Puzzle Hack",
+  "appTitle": "Flutter Puzzle Hack 2022",
   "@appTitle": {
     "description": "Le titre de l'application"
   },
-  "puzzlePageTitle": "Flutter Puzzle Hack",
+  "puzzlePageTitle": "Flutter Puzzle Hack 2022",
   "@puzzlePageTitle": {
     "description": "Le titre de la page du puzzle"
   },
