@@ -33,7 +33,7 @@ flutter:
   assets:
     - assets/animations/
     - assets/images/
-    - assets/images/button/
+    - assets/images/buttons/
     - assets/themes/base/
     - assets/themes/base/audio/
     
