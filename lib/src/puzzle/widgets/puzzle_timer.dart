@@ -53,9 +53,9 @@ class PuzzleTimer extends StatelessWidget {
         child: (breakpoint) {
           final theme = Theme.of(context);
           final currentTextStyle = textStyle ??
-              ((breakpoint.index <= Breakpoint.small.index)
-                  ? theme.textTheme.headline4
-                  : theme.textTheme.headline3);
+              ((breakpoint.index < Breakpoint.medium.index)
+                  ? theme.textTheme.headline5
+                  : theme.textTheme.headline4);
 
           final currentIconSize = iconSize ??
               Size(_iconDimensions[breakpoint]!, _iconDimensions[breakpoint]!);

@@ -359,8 +359,11 @@ class PuzzlePageState extends State<PuzzlePage> {
                                   timeElapsed:
                                       Duration(seconds: secondsElapsed),
                                 ),
-                                const SizedBox(
-                                  width: 64,
+                                SizedBox(
+                                  width:
+                                      breakpoint.index > Breakpoint.small.index
+                                          ? 48
+                                          : 32,
                                 ),
                                 PuzzleMoveCounter(moveCount: moveCount),
                               ],

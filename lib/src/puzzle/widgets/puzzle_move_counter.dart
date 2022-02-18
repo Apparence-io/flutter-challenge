@@ -25,9 +25,9 @@ class PuzzleMoveCounter extends StatelessWidget {
         child: (breakpoint) {
           final theme = Theme.of(context);
           final currentTextStyle = textStyle ??
-              ((breakpoint.index <= Breakpoint.small.index)
-                  ? theme.textTheme.headline4
-                  : theme.textTheme.headline3);
+              ((breakpoint.index < Breakpoint.medium.index)
+                  ? theme.textTheme.headline5
+                  : theme.textTheme.headline4);
 
           return AnimatedDefaultTextStyle(
             style: currentTextStyle!,

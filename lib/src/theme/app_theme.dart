@@ -29,6 +29,11 @@ abstract class AppTheme {
         fontWeight: FontWeight.w600,
         color: Color(0xFFFFFFFF),
       ),
+      headline5: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        color: Color(0xFFFFFFFF),
+      ),
       button: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w600,
@@ -106,6 +111,11 @@ abstract class AppTheme {
       ),
       headline4: TextStyle(
         fontSize: 22,
+        fontWeight: FontWeight.w600,
+        color: Color(0xFFFFFFFF),
+      ),
+      headline5: TextStyle(
+        fontSize: 18,
         fontWeight: FontWeight.w600,
         color: Color(0xFFFFFFFF),
       ),
