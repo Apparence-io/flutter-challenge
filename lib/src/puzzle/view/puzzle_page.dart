@@ -304,13 +304,10 @@ class PuzzlePageState extends State<PuzzlePage> {
                                 const SizedBox(height: 20),
                                 Text(
                                   l10n.puzzlePageTitle,
-                                  style: breakpoint.index >=
-                                          Breakpoint.medium.index
-                                      ? Theme.of(context).textTheme.headline1
-                                      : Theme.of(context)
-                                          .textTheme
-                                          .headline1!
-                                          .copyWith(fontSize: 25),
+                                  style:
+                                      breakpoint.index > Breakpoint.small.index
+                                          ? extraTheme(context).title
+                                          : extraTheme(context).titleSmall,
                                 ),
                                 const SizedBox(height: 16),
                               ],
@@ -352,39 +349,34 @@ class PuzzlePageState extends State<PuzzlePage> {
                         ],
                       ),
                       if (started)
-                        Container(
-                          decoration: BoxDecoration(
-                            color: extraTheme(context).puzzleBackgroundColor,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  PuzzleTimer(
-                                    timeElapsed:
-                                        Duration(seconds: secondsElapsed),
-                                  ),
-                                  const SizedBox(
-                                    width: 64,
-                                  ),
-                                  PuzzleMoveCounter(moveCount: moveCount),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 16,
-                              ),
-                              PuzzleBoard(
-                                puzzleDimension: puzzle.dimension,
-                                tiles: puzzle.tiles,
-                                canInteract: started && !solved,
-                                onTilePress: _onTilePress,
-                                onTileFillAnimationComplete:
-                                    _onTileFillAnimationComplete,
-                              ),
-                            ],
-                          ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                PuzzleTimer(
+                                  timeElapsed:
+                                      Duration(seconds: secondsElapsed),
+                                ),
+                                const SizedBox(
+                                  width: 64,
+                                ),
+                                PuzzleMoveCounter(moveCount: moveCount),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            PuzzleBoard(
+                              puzzleDimension: puzzle.dimension,
+                              tiles: puzzle.tiles,
+                              canInteract: started && !solved,
+                              onTilePress: _onTilePress,
+                              onTileFillAnimationComplete:
+                                  _onTileFillAnimationComplete,
+                            ),
+                          ],
                         )
                       else
                         const SizedBox.shrink(),
@@ -397,7 +389,7 @@ class PuzzlePageState extends State<PuzzlePage> {
               'assets/images/logos.png',
               height: 30,
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 30),
           ],
         ),
       ),

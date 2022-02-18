@@ -68,7 +68,16 @@ abstract class AppTheme {
   );
 
   static final lightExtra = ExtraThemeData(
-    puzzleBackgroundColor: Colors.transparent,
+    title: const TextStyle(
+      fontSize: 42,
+      fontWeight: FontWeight.w600,
+      color: Color(0xFF00DDFF),
+    ),
+    titleSmall: const TextStyle(
+      fontSize: 26,
+      fontWeight: FontWeight.w600,
+      color: Color(0xFF00DDFF),
+    ),
   );
 
   static final dark = ThemeData.dark().copyWith(
@@ -78,12 +87,12 @@ abstract class AppTheme {
       brightness: Brightness.dark,
       accentColor: const Color(0xFFE4000F),
     ),
-    backgroundColor: const Color(0xFF104673),
+    backgroundColor: const Color(0xFF000000),
     textTheme: const TextTheme(
       headline1: TextStyle(
         fontSize: 42,
         fontWeight: FontWeight.w600,
-        color: Color(0xFF00DDFF),
+        color: Color(0xFFFFFFFF),
       ),
       headline2: TextStyle(
         fontSize: 35,
@@ -136,16 +145,27 @@ abstract class AppTheme {
   );
 
   static final darkExtra = ExtraThemeData(
-    puzzleBackgroundColor: Colors.transparent,
+    title: const TextStyle(
+      fontSize: 42,
+      fontWeight: FontWeight.w600,
+      color: Color(0xFF00DDFF),
+    ),
+    titleSmall: const TextStyle(
+      fontSize: 26,
+      fontWeight: FontWeight.w600,
+      color: Color(0xFF00DDFF),
+    ),
   );
 }
 
 class ExtraThemeData {
   ExtraThemeData({
-    this.puzzleBackgroundColor,
+    this.title,
+    this.titleSmall,
   });
 
-  final Color? puzzleBackgroundColor;
+  final TextStyle? title;
+  final TextStyle? titleSmall;
 }
 
 extension ExtraTheme on ThemeData {
