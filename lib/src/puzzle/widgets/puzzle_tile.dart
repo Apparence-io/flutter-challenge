@@ -86,6 +86,9 @@ class PuzzleTileState extends State<PuzzleTile>
         _startFillAnimation(widget.tile.filling!);
       }
     }
+    if (oldWidget.canInteract != widget.canInteract) {
+      _controller.reverse();
+    }
   }
 
   Future<void> _loadAnimation() async {
