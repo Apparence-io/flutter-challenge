@@ -2,10 +2,10 @@
  <img src="https://raw.githubusercontent.com/Apparence-io/flutter-challenge/main/readme-doc/showcase-readme.jpg" alt="flutter anchored onboarding screen" />  
 </p>  
 <br>  
-<p align="center">  
-    ![coverage][coverage_badge]  
-    [![License: MIT][license_badge]][license_link]  
-</p>  
+
+ ![coverage][coverage_badge]
+[![License: MIT][license_badge]][license_link] 
+ 
 <br>  
 
 Gameplay :
