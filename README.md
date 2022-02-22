@@ -3,7 +3,7 @@
 </p>  
 <br>  
 
- ![coverage][coverage_badge]
+![coverage][coverage_badge]
 [![License: MIT][license_badge]][license_link] 
  
 <br>  
@@ -31,3 +31,8 @@ Packages used :
 
 ![Flutter and Apparence.io Logos](https://raw.githubusercontent.com/Apparence-io/flutter-challenge/main/readme-doc/logos.png)
 Developed with 💙  by Apparence.io
+
+
+[coverage_badge]: coverage_badge.svg
+[license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
+[license_link]: https://opensource.org/licenses/MIT
