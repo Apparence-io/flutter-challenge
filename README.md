@@ -1,36 +1,38 @@
 <p align="left">  
- <img src="https://raw.githubusercontent.com/Apparence-io/flutter-challenge/main/readme-doc/showcase-readme.jpg" alt="flutter anchored onboarding screen" />  
+ <img src="https://raw.githubusercontent.com/Apparence-io/flutter-challenge/main/readme-doc/showcase-readme.jpg" alt="flutter challenge 2022 apparence.io app web android ios" />  
 </p>  
-<br>  
+<br/>  
 
 ![coverage][coverage_badge]
 [![License: MIT][license_badge]][license_link] 
  
-<br>  
+<br/> 
 
-Gameplay :
+# **Slide puzzle flutter challenge 2022**
+![Flutter and Apparence.io Logos](https://raw.githubusercontent.com/Apparence-io/flutter-challenge/main/readme-doc/logos.png)
+Developed with 💙  by Apparence.io
+
+Gameplay
 -
 This puzzle game is a bit different from other water pipes games. You can't rotate the pipes, only a slide is allowed! There's one empty space where you will be able to swipe your pipes and organize them to found a solution.
 
 **Move the pipes with your finger to create a way to let the water flow to the duck.
-Are you ready to play?  [Start solving puzzles now!](https://apparence-flutter-puzzle.web.app/)**
+Are you ready to play? <br/> 
+[🦆 Click here to play !](https://apparence-flutter-puzzle.web.app/)**
 
-Functionalities :
+Features
 -
 - Random puzzle generation
 - Solvability checker, to make sure random generated puzzle have solution
-- Rive
+- Rive animations
 - Multiplatform (Web, iOS, Android)
 - Music & Sounds
 - Custom design
 
-Packages used :
+Packages used
 -
-- confetti, dart_code_metrics, equatable, intl, just_audio, logging, rive, universal_platform
+(confetti, dart_code_metrics, equatable, intl, just_audio, logging, rive, universal_platform)
 
-
-![Flutter and Apparence.io Logos](https://raw.githubusercontent.com/Apparence-io/flutter-challenge/main/readme-doc/logos.png)
-Developed with 💙  by Apparence.io
 
 
 [coverage_badge]: coverage_badge.svg
