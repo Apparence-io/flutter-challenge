@@ -1,5 +1,5 @@
 <p align="left">  
- <img src="https://raw.githubusercontent.com/Apparence-io/flutter-challenge/main/readme-doc/showcase-readme.jpg" alt="flutter challenge 2022 apparence.io app web android ios" />  
+ <img src="./readme-doc/showcase-readme.jpg" alt="flutter challenge 2022 apparence.io app web android ios" />  
 </p>  
 <br/>  
 
@@ -9,7 +9,7 @@
 <br/> 
 
 # **Slide puzzle flutter challenge 2022**
-![Flutter and Apparence.io Logos](https://raw.githubusercontent.com/Apparence-io/flutter-challenge/main/readme-doc/logos.png)
+![Flutter and Apparence.io Logos](./readme-doc/logos.png)
 Developed with 💙  by Apparence.io
 
 Gameplay
