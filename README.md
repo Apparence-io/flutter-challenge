@@ -18,7 +18,7 @@ This puzzle game is a bit different from other water pipes games. You can't rota
 
 **Move the pipes with your finger to create a way to let the water flow to the duck.
 Are you ready to play? <br/> 
-[🦆 Click here to play !](https://apparence-flutter-puzzle.web.app/)**
+[🦆 Click here to play !](https://flutter-challenge-2022.web.app/)**
 
 Features
 -
